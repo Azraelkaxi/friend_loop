@@ -18,5 +18,19 @@
     <ClCompile Include="regex.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="login.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Moment.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

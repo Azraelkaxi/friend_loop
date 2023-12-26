@@ -1,16 +1,14 @@
 #pragma twice
-
 #include <iostream>
 #include <list>
 #include <iomanip>
-#include <ctime>
+#include <time.h>
 #include <sstream>
-
 using namespace std;
 
 class Comment;
 
-class Moments 
+class Moments
 {
 public:
 	Moments();
@@ -26,38 +24,38 @@ public:
 	void writeReply();
 	void showComment();
 private:
-	// æ–‡æœ¬
+	// ÎÄ±¾
 	string text;
-	// æ—¥æœŸ
+	// ÈÕÆÚ
 	string date;
-	// ç‚¹èµ
+	// µãÔŞ
 	int likes;
-	// è¯„è®º(listç»“æ„å­˜å‚¨)
+	// ÆÀÂÛ(list½á¹¹´æ´¢)
 	list<Comment> comments;
 };
 
-class Comment 
+class Comment
 {
 public:
-	// è¯„è®º
+	// ÆÀÂÛ
 	string text;
-	// å›å¤
+	// »Ø¸´
 	list<string> reply = {};
 };
 
 Moments::Moments()
 {
-	
+
 }
 
-Moments::~Moments() 
+Moments::~Moments()
 {
-	
+
 }
 
-void Moments::setText() 
+void Moments::setText()
 {
-	cout << "è¿™ä¸€åˆ»çš„æƒ³æ³•:" << endl;
+	cout << "ÕâÒ»¿ÌµÄÏë·¨:" << endl;
 	string s;
 	cin >> s;
 	text = s;
@@ -65,17 +63,29 @@ void Moments::setText()
 	setDate();
 }
 
-void Moments::setDate() 
+void Moments::setDate()
 {
 	time_t now = time(nullptr);
 	tm* localTime = localtime(&now);
-	// å­—ç¬¦ä¸²æµå­˜å‚¨æ—¥æœŸå’Œæ—¶é—´
+	// ×Ö·û´®Á÷´æ´¢ÈÕÆÚºÍÊ±¼ä
 	stringstream ss;
 	ss << setw(4) << setfill('0') << localTime->tm_year + 1900 << "-";
 	ss << setw(2) << setfill('0') << localTime->tm_mon + 1 << "-";
 	ss << setw(2) << setfill('0') << localTime->tm_mday << " ";
 	ss << setw(2) << setfill('0') << localTime->tm_hour << ":";
 	ss << setw(2) << setfill('0') << localTime->tm_min;
+	time_t now;
+	time(&now);
+	struct tm localTimeInfo;
+	localtime_s(&localTimeInfo, &now);
+
+	stringstream ss;
+	ss << setw(4) << std::setfill('0') << localTimeInfo.tm_year + 1900 << "-";
+	ss << setw(2) << std::setfill('0') << localTimeInfo.tm_mon + 1 << "-";
+	ss << setw(2) << std::setfill('0') << localTimeInfo.tm_mday << " ";
+	ss << setw(2) << std::setfill('0') << localTimeInfo.tm_hour << ":";
+	ss << setw(2) << std::setfill('0') << localTimeInfo.tm_min;
+
 	date = ss.str();
 }
 
@@ -84,17 +94,17 @@ void Moments::setLikes()
 	likes = 0;
 }
 
-auto Moments::getText() 
+auto Moments::getText()
 {
 	return text;
 }
 
-auto Moments::getDate() 
+auto Moments::getDate()
 {
 	return date;
 }
 
-int Moments::getLikes() 
+int Moments::getLikes()
 {
 	return likes;
 }
@@ -102,51 +112,50 @@ int Moments::getLikes()
 void Moments::giveLike()
 {
 	likes++;
-	cout << "ç‚¹èµæˆåŠŸ" << endl;
+	cout << "µãÔŞ³É¹¦" << endl;
 }
 
-void Moments::writeComment() 
+void Moments::writeComment()
 {
 	string s;
-	cout << "è¯·è¾“å…¥è¯„è®º:" << endl;
+	cout << "ÇëÊäÈëÆÀÂÛ:" << endl;
 	cin >> s;
-	comments.push_back({s});
+	comments.push_back({ s });
 }
 
-void Moments::writeReply() 
+void Moments::writeReply()
 {
 	string s;
-	cout << "è¯·è¾“å…¥å›å¤" << endl;
+	cout << "ÇëÊäÈë»Ø¸´" << endl;
 	cin >> s;
 	comments.back().reply.push_back(s);
 }
 
-void Moments::showComment() 
+void Moments::showComment()
 {
-	if (comments.empty()) 
+	if (comments.empty())
 	{
-		cout << "æš‚æ— è¯„è®º" << endl;
+		cout << "ÔİÎŞÆÀÂÛ" << endl;
 		return;
 	}
-	
-	cout << "è¯„è®ºåˆ—è¡¨ï¼š" << endl;
+
+	cout << "ÆÀÂÛÁĞ±í£º" << endl;
 	int commentIndex = 1;
-	for (auto commentIt = comments.begin(); commentIt != comments.end(); ++commentIt) 
+	for (auto commentIt = comments.begin(); commentIt != comments.end(); ++commentIt)
 	{
 		const Comment& comment = *commentIt;
-		cout << "è¯„è®º" << commentIndex << ": " << comment.text << endl;	
+		cout << "ÆÀÂÛ" << commentIndex << ": " << comment.text << endl;
 		if (!comment.reply.empty())
 		{
-			cout << "å›å¤åˆ—è¡¨ï¼š" << endl;
+			cout << "»Ø¸´ÁĞ±í£º" << endl;
 			int replyIndex = 1;
-			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt) 
+			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)
 			{
 				const string& reply = *replyIt;
-				cout << "å›å¤" << replyIndex << ": " << reply << endl;
+				cout << "»Ø¸´" << replyIndex << ": " << reply << endl;
 				++replyIndex;
 			}
-		}	
+		}
 		++commentIndex;
 	}
 }
-

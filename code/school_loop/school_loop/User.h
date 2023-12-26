@@ -1,6 +1,8 @@
 #pragma once
 #include<iostream>
 #include<list>
+#include"Moment.h"
+
 using namespace std;
 
 class User
@@ -15,7 +17,8 @@ private:
 public:
 	User();
 	~User();
-	User(User& s);
+	User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends);
+	User(const User& s);
 	void setName(string newname);
 	void setBirthday(string newbirthday);
 	void setMessage(string newmessage);
@@ -30,6 +33,34 @@ public:
 	list<string> getFriend();
 	list<Moments> getCircle_of_friends();
 };
+
+User::~User(){}
+
+User::User(){}
+
+User::User(const User& s)
+{
+	/*this->id = s.id;
+	this->birthday = s.birthday;
+	this->name = s.name;
+	this->message = s.message;
+	for (list<string>::iterator it = s.Friend.begin(); it != s.Friend.end(); ++it)
+		this->Friend.push_back(*it);
+	for (list<Moments>::iterator it = s.Circle_of_friends.begin(); it != s.Circle_of_friends.end(); ++it)
+		this->Circle_of_friends.push_back(*it);*/
+}
+
+User::User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends)
+{
+	this->id = _id;
+	this->message = _message;
+	this->name = _name;
+	this->birthday = _birthday;
+	for (list<string>::iterator it = Friend.begin(); it != Friend.end(); ++it)
+		this->Friend.push_back(*it);
+	for (list<Moments>::iterator it = Circle_of_friends.begin(); it != Circle_of_friends.end(); ++it)
+		this->Circle_of_friends.push_back(*it);
+}
 
 void User::setName(string newname)
 {
