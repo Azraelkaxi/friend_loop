@@ -1,4 +1,4 @@
-#pragma twice
+#pragma once
 #include <iostream>
 #include <list>
 #include <iomanip>
