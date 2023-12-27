@@ -132,8 +132,11 @@
     <ClCompile Include="regex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="addfriend.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="Moment.h" />
+    <ClInclude Include="Postonmoments.h" />
+    <ClInclude Include="Seefriendcircle.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

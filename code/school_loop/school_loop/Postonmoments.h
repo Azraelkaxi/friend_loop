@@ -9,7 +9,7 @@ void Post_on_moments(map<string, User> mp, string my_id)
 	cout << "请输入您要发布的朋友圈内容：" << endl;
 	string _text;
 	cin >> _text;
-	
+	//写入操作，待定  时间自动获取  点赞默认为0
 	string title = my_id + ".txt";
 	ofstream ofs(title, ios::app);
 	ofs << "0" << endl;
