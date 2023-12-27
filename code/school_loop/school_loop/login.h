@@ -6,10 +6,15 @@
 #include<map>
 #include"User.h"
 using namespace std;
+
+// 记录账号的地址
+const string URL = "data\\校园朋友圈账号信息.txt";
+
+// 判断账号是否已存在
 bool queryMessage(string _id)
 {
 	string str1;
-	ifstream ifs("校园朋友圈账号信息.txt", ios_base::in);
+	ifstream ifs(URL, ios_base::in);
 
 	while (ifs >> str1)
 	{
@@ -26,15 +31,17 @@ bool queryMessage(string _id)
 	return false;
 }
 
+// 保存账号信息
 void save_id_message(string _id)
 {
-	ofstream ofs("校园朋友圈账号信息.txt", ios_base::out);
+	ofstream ofs(URL, ios_base::out);
 	string new_id = "";
 	for (int i = 0; i < _id.size(); i++)
 		new_id += _id[(i + 4) % _id.size()];
 	ofs << new_id;
 }
 
+// 注册
 void sign_in()
 {
 	string _id, _message = "", re_message = "";
@@ -89,10 +96,11 @@ void sign_in()
 	out:save_id_message(_id);
 }
 
+// 检查账号和密码是否匹配
 int check(string _id, string _message, map<string, User>mp)
 {
 	string str1;
-	ifstream ifs("校园朋友圈账号信息.txt", ios_base::in);
+	ifstream ifs(URL, ios_base::in);
 	while (ifs >> str1)
 	{
 		string str2 = "";
@@ -124,7 +132,7 @@ int check(string _id, string _message, map<string, User>mp)
 }
 
 
-
+// 测试
 int check_in(map<string, User>mp)
 {
 	string _id, _message = "";
@@ -166,7 +174,7 @@ int check_in(map<string, User>mp)
 }
 
 
-
+// 修改个人信息
 void retrieve(map<string, User>mp)
 {
 	while (1)
@@ -227,6 +235,7 @@ void retrieve(map<string, User>mp)
 }
 
 
+// 登录页面UI
 void login(map<string, User> mp)
 {
 	while (1)
