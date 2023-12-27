@@ -6,6 +6,8 @@
 #include<map>
 #include"User.h"
 using namespace std;
+
+string _id_;
 bool queryMessage(string _id)
 {
 	string str1;
@@ -146,6 +148,7 @@ int check_in(map<string, User>mp)
 		cout << endl;
 		if (check(_id, _message, mp) == 0)
 		{
+			_id_ = _id;
 			cout << "µÇÂ½³É¹¦" << endl;
 			system("pause");
 			return 1;
@@ -227,7 +230,7 @@ void retrieve(map<string, User>mp)
 }
 
 
-void login(map<string, User> mp)
+string login(map<string, User> mp)
 {
 	while (1)
 	{
@@ -246,7 +249,7 @@ void login(map<string, User> mp)
 		{
 		case 1:
 			ans = check_in(mp);
-			break;
+			return _id_;
 		case 2:
 			sign_in();
 			break;

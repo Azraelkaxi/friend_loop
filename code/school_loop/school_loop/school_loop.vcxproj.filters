@@ -32,5 +32,14 @@
     <ClInclude Include="User.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="addfriend.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Postonmoments.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Seefriendcircle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
