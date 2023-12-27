@@ -16,6 +16,9 @@ public:
 	Moments();
 	Moments(string t, string d, int l, list<Comment> comments);
 	~Moments();
+	/*
+	关于私有对象调用的函数
+	*/
 	void setText();
 	void setDate();
 	void setLikes();
@@ -23,9 +26,12 @@ public:
 	auto getDate();
 	int getLikes();
 	void giveLike();
+
 	void writeComment();
 	void writeReply();
 	void showComment();
+
+
 private:
 	// 文本
 	string text;

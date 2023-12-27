@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __LOGIN_H__
+#define __LOGIN_H__
+
 #include<iostream>
 #include<conio.h>
 #include<windows.h>
@@ -6,6 +8,9 @@
 #include<map>
 #include"User.h"
 using namespace std;
+
+// 返回的使用者id
+string _id_;
 
 // 记录账号的地址
 const string URL = "data\\校园朋友圈账号信息.txt";
@@ -18,10 +23,7 @@ bool queryMessage(string _id)
 
 	while (ifs >> str1)
 	{
-		string str2 = "";
-		for (int i = 0; i < str1.size(); i++)
-			str2 += str1[(i + str1.size() - 4) % str1.size()];
-		if (str2 == _id)
+		if (str1 == _id)
 		{
 			ifs.close();
 			return true;
@@ -34,11 +36,22 @@ bool queryMessage(string _id)
 // 保存账号信息
 void save_id_message(string _id)
 {
+	// 在账号信息表中添加新账号
 	ofstream ofs(URL, ios_base::out);
-	string new_id = "";
-	for (int i = 0; i < _id.size(); i++)
-		new_id += _id[(i + 4) % _id.size()];
-	ofs << new_id;
+	ofs << _id;
+	ofs.close();
+
+	// 在data下开一个存储新账号的区域
+	string file_name = "data\\" + _id + ".txt";
+	ofstream outFile(file_name);
+	/*
+	写入默认的User类信息
+	(当前仅做测试)
+	*/
+	outFile << "Hello, World!" << std::endl;
+	outFile << "This is a new file." << std::endl;
+	outFile.close();
+
 }
 
 // 注册
@@ -93,7 +106,7 @@ void sign_in()
 			continue;
 		}
 	}
-	out:save_id_message(_id);
+out:save_id_message(_id);
 }
 
 // 检查账号和密码是否匹配
@@ -154,6 +167,7 @@ int check_in(map<string, User>mp)
 		cout << endl;
 		if (check(_id, _message, mp) == 0)
 		{
+			_id_ = _id;
 			cout << "登陆成功" << endl;
 			system("pause");
 			return 1;
@@ -224,11 +238,11 @@ void retrieve(map<string, User>mp)
 
 			switch (choice)
 			{
-				case 1:
-					goto restart;
-					break;
-				case 2:
-					return;
+			case 1:
+				goto restart;
+				break;
+			case 2:
+				return;
 			}
 		}
 	}
@@ -236,7 +250,7 @@ void retrieve(map<string, User>mp)
 
 
 // 登录页面UI
-void login(map<string, User> mp)
+string login(map<string, User> mp)
 {
 	while (1)
 	{
@@ -255,6 +269,7 @@ void login(map<string, User> mp)
 		{
 		case 1:
 			ans = check_in(mp);
+			return _id_;
 			break;
 		case 2:
 			sign_in();
@@ -272,3 +287,5 @@ void login(map<string, User> mp)
 			continue;
 	}
 }
+#endif // !__LOGIN_H__
+

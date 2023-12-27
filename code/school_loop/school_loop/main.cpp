@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
 #include"User.h"
 #include"login.h"
 #include"Postonmoments.h"
@@ -12,6 +14,7 @@ int main()
 
 	my_id = login(mp);
 
+	system("cls");
 	while (1)
 	{
 		cout << "-------------------------" << endl;
@@ -37,7 +40,7 @@ int main()
 				Add_friend(mp, my_id);
 				break;
 			case 4:
-				return;
+				return 0;
 		}
 	}
 }
