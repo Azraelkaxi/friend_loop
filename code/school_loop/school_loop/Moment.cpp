@@ -1,4 +1,5 @@
 #include "Moment.h"
+#define _CRT_SECURE_NO_WARNINGS 1
 
 Moments::Moments() {}
 
@@ -27,11 +28,10 @@ void Moments::setText()
 
 void Moments::setDate()
 {
-	struct tm localTime;
 	time_t now = time(0);
-	localtime_s(&localTime, &now);
+	tm* localTime = localtime(&now);
 	stringstream ss;
-	ss << localTime.tm_year + 1900 << "-" << setfill('0') << setw(2) << localTime.tm_mon + 1 << "-" << setfill('0') << setw(2) << localTime.tm_mday << " " << setfill('0') << setw(2) << localTime.tm_hour << ":" << setfill('0') << setw(2) << localTime.tm_min;
+	ss << localTime->tm_year + 1900 << "-" << setfill('0') << setw(2) << localTime->tm_mon + 1 << "-" << setfill('0') << setw(2) << localTime->tm_mday << " " << setfill('0') << setw(2) << localTime->tm_hour << ":" << setfill('0') << setw(2) << localTime->tm_min;
 	date = ss.str();
 }
 
@@ -104,6 +104,43 @@ void Moments::showComment()
 		}
 		++commentIndex;
 	}
-
-	
+}
+ostream& operator<<(ostream& o, const Moments& m)
+{
+	o << "#" << endl;
+	o << m.text << endl;
+	o << "#" << endl;
+	o << m.likes << endl;
+	o << m.date << endl;
+	o << "#" << endl;
+	int commentIndex = 1;
+	for (auto commentIt = m.comments.begin(); commentIt != m.comments.end(); ++commentIt)
+	{
+		const Comment& comment = *commentIt;
+		o << "ÆÀÂÛ" << commentIndex << ": " << comment.text << endl;
+		if (!comment.reply.empty())
+		{
+			int replyIndex = 1;
+			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)
+			{
+				const string& reply = *replyIt;
+				o << "»Ø¸´" << replyIndex << ": " << reply << endl;
+				++replyIndex;
+			}
+			o << endl;
+		}
+		++commentIndex;
+	}
+	o << "*" << endl;
+	return o;
+}
+int main()
+{
+	Moments m1;
+	m1.setText();
+	m1.writeComment();
+	m1.writeReply();
+	m1.giveLike();
+	cout << m1;
+	m1.showComment();
 }
