@@ -1,5 +1,4 @@
 #include "Moment.h"
-#define _CRT_SECURE_NO_WARNINGS 1
 
 Moments::Moments() {}
 
@@ -16,6 +15,16 @@ Moments::Moments(string t, string d, int l, list<Comment> comments)
 
 Moments::~Moments() {}
 
+Moments::Moments(const Moments& _t) {
+	text = _t.text;
+	date = _t.date;
+	likes = _t.likes;
+	for (auto it = _t.comments.begin(); it != _t.comments.end(); ++it)
+	{
+		this->comments.push_back(*it);
+	}
+}
+
 void Moments::setText()
 {
 	cout << "这一刻的想法:" << endl;
@@ -29,9 +38,10 @@ void Moments::setText()
 void Moments::setDate()
 {
 	time_t now = time(0);
-	tm* localTime = localtime(&now);
+	tm localTime;
+	localtime_s(&localTime, &now);
 	stringstream ss;
-	ss << localTime->tm_year + 1900 << "-" << setfill('0') << setw(2) << localTime->tm_mon + 1 << "-" << setfill('0') << setw(2) << localTime->tm_mday << " " << setfill('0') << setw(2) << localTime->tm_hour << ":" << setfill('0') << setw(2) << localTime->tm_min;
+	ss << localTime.tm_year + 1900 << "-" << setfill('0') << setw(2) << localTime.tm_mon + 1 << "-" << setfill('0') << setw(2) << localTime.tm_mday << " " << setfill('0') << setw(2) << localTime.tm_hour << ":" << setfill('0') << setw(2) << localTime.tm_min;
 	date = ss.str();
 }
 
@@ -133,14 +143,4 @@ ostream& operator<<(ostream& o, const Moments& m)
 	}
 	o << "*" << endl;
 	return o;
-}
-int main()
-{
-	Moments m1;
-	m1.setText();
-	m1.writeComment();
-	m1.writeReply();
-	m1.giveLike();
-	cout << m1;
-	m1.showComment();
 }

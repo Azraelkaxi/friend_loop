@@ -16,7 +16,7 @@ public:
 	Moments();
 	Moments(string t, string d, int l, list<Comment> comments);
 	~Moments();
-	Moments(Moments& t);
+	Moments(const Moments& t);
 	void setText();
 	void setDate();
 	void setLikes();
