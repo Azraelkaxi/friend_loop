@@ -9,7 +9,7 @@ using namespace std;
 
 bool queryMessage(string _id);
 
-void save_id_message(string _id, string _message, string _name, string _birthday, map<string, User>& mp);
+void save_id_message(string _id, string _message, map<string, User>& mp);
 
 void sign_in(map<string, User>& mp);
 

@@ -18,7 +18,7 @@ void Init(map<string, User>& mp)
 		}
 		else
 		{
-			string File_name = line;
+			string File_name = "data\\" + line + ".txt";
 			ifstream is(File_name, ios_base::in);
 			if (!is.is_open())
 			{
@@ -26,35 +26,33 @@ void Init(map<string, User>& mp)
 			}
 			else
 			{
-				//读取基础信息
-				string _id, _message, _name, _birthday, line1, line2, line3;
-				//读取好友列表
-				list<string> _Friend;
-				is >> _id >> _message >> _name >> _birthday >> line1 >> line2 >> line3;
-				string line4;
-				while (getline(is, line4))
-				{
-					if (line4.empty())
-						break;
-					else
-					{
-						_Friend.push_back(line4);
-					}
-				}
-				//读取朋友圈
-				string _text, _date;
-				int _likes;
-				while (getline(is, line4))
-				{
-					if (line4.empty())
-						break;
-					else if (line4 == "#" || line4 == "*")
-						continue;
-					else
-					{
+				User t;
+				string temp;
+				// 读取基本信息
+				getline(is, temp);
+				t.setID(temp);
+				getline(is, temp);
+				t.setMessage(temp);
+				getline(is, temp);
+				t.setName(temp);
+				getline(is, temp);
+				t.setBirthday(temp);
 
+				getline(is, temp);
+				if (temp == "#")
+				{
+					while (getline(is, temp))
+					{
+						if (temp.empty() || temp == "*")
+							break;
+						else
+						{
+							t.getFriend().push_back(temp);
+						}
 					}
 				}
+				mp.insert(make_pair(t.getId(), t));
+
 			}
 		}
 	}

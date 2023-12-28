@@ -25,12 +25,13 @@ User::User(const User& s)
 		this->Circle_of_friends.push_back(*it);
 }
 
-User::User(string _id, string _message, list<string> Friend, list<Moments> Circle_of_friends, string _name = "", string _birthday = "XXXX-XX-XX")
+User::User(string _id, string _message, list<string> Friend, list<Moments> Circle_of_friends)
 {
+	string _birthday = "XXXX-XX-XX";
 	this->id = _id;
 	this->message = _message;
 	vector<string> v = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-	//string _name = "";
+	string _name = "";
 	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 10; i++)
 	{
@@ -48,22 +49,21 @@ User::User(string _id, string _message, list<string> Friend, list<Moments> Circl
 void User::setName(string newname)
 {
 	this->name = newname;
-	cout << "更新完成" << endl;
-	system("pause");
 }
 
 void User::setBirthday(string newbirthday)
 {
 	this->birthday = newbirthday;
-	cout << "更新完成" << endl;
-	system("pause");
 }
 
 void User::setMessage(string newmessage)
 {
 	this->message = newmessage;
-	cout << "更新完成" << endl;
-	system("pause");
+}
+
+void User::setID(string newid)
+{
+	this->id = newid;
 }
 
 void User::addFriend(string _id)
@@ -133,7 +133,7 @@ string User::getName()
 	return this->name;
 }
 
-list<string> User::getFriend()
+list<string>& User::getFriend()
 {
 	return this->Friend;
 }
@@ -149,19 +149,19 @@ ostream& operator<<(ostream& o, const User &m)
 	o << m.message << endl;
 	o << m.name << endl;
 	o << m.birthday << endl;
-	o << endl << endl;
-	o << "好友列表" << endl;
+	o << "#" << endl;
 	list<string> str = m.Friend;
 	list<string>::iterator it;
 	for (it = str.begin(); it != str.end(); ++it)
 	{
 		o << *it << endl;
 	}
-	o << endl;
+	o << "*" << endl;
 	list<Moments> moments = m.Circle_of_friends;
 	list<Moments>::iterator mm;
 	for (mm = moments.begin(); mm != moments.end(); ++mm)
 	{
 		o << *mm << endl;
 	}
+	return o;
 }

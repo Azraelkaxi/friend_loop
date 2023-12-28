@@ -52,7 +52,7 @@ void save_id_message(string _id, string _message, map<string, User>& mp)
 // 注册
 void sign_in(map<string, User>& mp)
 {
-	string _id, _message = "", re_message = "", _name, _birthday;
+	string _id, _message = "", re_message = "";
 	while (1)
 	{
 		system("cls");
@@ -84,10 +84,6 @@ void sign_in(map<string, User>& mp)
 			re_message += c;
 		}
 		cout << endl;
-		cout << "请输入网名： " << endl;
-		cin >> _name;
-		cout << "请输入生日： " << endl;
-		cin >> _birthday;
 		if (re_message == _message)
 		{
 			if (queryMessage(_id))
