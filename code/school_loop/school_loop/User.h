@@ -19,6 +19,7 @@ public:
 	~User();
 	User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends);
 	User(const User& s);
+	void setId(string newid);
 	void setName(string newname);
 	void setBirthday(string newbirthday);
 	void setMessage(string newmessage);
@@ -36,18 +37,26 @@ public:
 
 User::~User(){}
 
-User::User(){}
+User::User()
+{
+	this->id = "";
+	this->message = "";
+	this->name = "";
+	this->birthday = "";
+	this->Friend = {};
+	this->Circle_of_friends = {};
+}
 
 User::User(const User& s)
 {
-	/*this->id = s.id;
+	this->id = s.id;
 	this->birthday = s.birthday;
 	this->name = s.name;
 	this->message = s.message;
-	for (list<string>::iterator it = s.Friend.begin(); it != s.Friend.end(); ++it)
+	for (list<string>::const_iterator it = s.Friend.begin(); it != s.Friend.end(); ++it)
 		this->Friend.push_back(*it);
-	for (list<Moments>::iterator it = s.Circle_of_friends.begin(); it != s.Circle_of_friends.end(); ++it)
-		this->Circle_of_friends.push_back(*it);*/
+	for (list<Moments>::const_iterator it = s.Circle_of_friends.begin(); it != s.Circle_of_friends.end(); ++it)
+		this->Circle_of_friends.push_back(*it);
 }
 
 User::User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends)

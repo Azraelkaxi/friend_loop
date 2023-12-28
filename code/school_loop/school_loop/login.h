@@ -1,6 +1,5 @@
 #ifndef __LOGIN_H__
 #define __LOGIN_H__
-
 #include<iostream>
 #include<conio.h>
 #include<windows.h>
@@ -34,12 +33,17 @@ bool queryMessage(string _id)
 }
 
 // 保存账号信息
-void save_id_message(string _id)
+void save_id_message(string _id, string _message, string _name, string _birthday, map<string, User> &mp)
 {
-	// 在账号信息表中添加新账号
-	ofstream ofs(URL, ios_base::out);
-	ofs << _id;
+	// 在账号信息表中添加新账号(追加写入)
+	ofstream ofs(URL, ios::app);
+	ofs << _id << endl;
 	ofs.close();
+	//实时更新map
+	list<string> Friend = {};
+	list<Moments> Circle_of_friends = {};
+	User user(_id, _message, _name, _birthday, Friend, Circle_of_friends);
+	mp.insert(make_pair(_id, user));
 
 	// 在data下开一个存储新账号的区域
 	string file_name = "data\\" + _id + ".txt";
@@ -55,9 +59,9 @@ void save_id_message(string _id)
 }
 
 // 注册
-void sign_in()
+void sign_in(map<string, User> &mp)
 {
-	string _id, _message = "", re_message = "";
+	string _id, _message = "", re_message = "", _name, _birthday;
 	while (1)
 	{
 		system("cls");
@@ -89,16 +93,22 @@ void sign_in()
 			re_message += c;
 		}
 		cout << endl;
+		cout << "请输入网名： " << endl;
+		cin >> _name;
+		cout << "请输入生日： " << endl;
+		cin >> _birthday;
 		if (re_message == _message)
 		{
 			if (queryMessage(_id))
 			{
 				cout << "该账号已存在，请直接登录" << endl;
+				system("pause");
 				break;
 			}
+			save_id_message(_id, _message, _name, _birthday, mp);
 			cout << "您已成功注册，请登录" << endl;
-			Sleep(3000);
-			goto out;
+			system("pause");
+			break;
 		}
 		else
 		{
@@ -106,20 +116,16 @@ void sign_in()
 			continue;
 		}
 	}
-out:save_id_message(_id);
 }
 
 // 检查账号和密码是否匹配
-int check(string _id, string _message, map<string, User>mp)
+int check(string _id, string _message, map<string, User> &mp)
 {
 	string str1;
 	ifstream ifs(URL, ios_base::in);
-	while (ifs >> str1)
+	while (getline(ifs, str1))
 	{
-		string str2 = "";
-		for (int i = 0; i < str1.size(); i++)
-			str2 += str1[(i + str1.size() - 4) % str1.size()];
-		if (str2 == _id)
+		if (str1 == _id)
 		{
 			map<string, User>::iterator it;
 			for (it = mp.begin(); it != mp.end(); ++it)
@@ -133,6 +139,8 @@ int check(string _id, string _message, map<string, User>mp)
 					}
 					else
 					{
+						cout << it->second.getMessage() << endl;
+						Sleep(3000);
 						ifs.close();
 						return 1;
 					}
@@ -144,9 +152,8 @@ int check(string _id, string _message, map<string, User>mp)
 	return 2;
 }
 
-
-// 测试
-int check_in(map<string, User>mp)
+// 登录
+int check_in(map<string, User>& mp)
 {
 	string _id, _message = "";
 	while (1)
@@ -162,7 +169,7 @@ int check_in(map<string, User>mp)
 				break;
 			}
 			printf("*");
-			_message = c;
+			_message += c;
 		}
 		cout << endl;
 		if (check(_id, _message, mp) == 0)
@@ -187,9 +194,8 @@ int check_in(map<string, User>mp)
 	}
 }
 
-
 // 修改个人信息
-void retrieve(map<string, User>mp)
+void retrieve(map<string, User>& mp)
 {
 	while (1)
 	{
@@ -248,9 +254,8 @@ void retrieve(map<string, User>mp)
 	}
 }
 
-
 // 登录页面UI
-string login(map<string, User> mp)
+string login(map<string, User> &mp)
 {
 	while (1)
 	{
@@ -269,10 +274,9 @@ string login(map<string, User> mp)
 		{
 		case 1:
 			ans = check_in(mp);
-			return _id_;
 			break;
 		case 2:
-			sign_in();
+			sign_in(mp);
 			break;
 		case 3:
 			retrieve(mp);
@@ -282,7 +286,7 @@ string login(map<string, User> mp)
 			break;
 		}
 		if (ans == 1)
-			break;
+			return _id_;
 		else
 			continue;
 	}
