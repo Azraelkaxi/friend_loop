@@ -15,7 +15,7 @@ private:
 public:
 	User();
 	~User();
-	User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends);
+	User(string _id, string _message, list<string> Friend, list<Moments> Circle_of_friends, string _name = "", string _birthday = "XXXX-XX-XX");
 	User(const User& s);
 	void setName(string newname);
 	void setBirthday(string newbirthday);
@@ -30,5 +30,6 @@ public:
 	string getBirthday();
 	list<string> getFriend();
 	list<Moments> getCircle_of_friends();
+	friend ostream& operator<<(ostream& o, const User &m);
 };
 

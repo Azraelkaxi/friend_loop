@@ -25,7 +25,7 @@ bool queryMessage(string _id)
 }
 
 // 保存账号信息
-void save_id_message(string _id, string _message, string _name, string _birthday, map<string, User>& mp)
+void save_id_message(string _id, string _message, map<string, User>& mp)
 {
 	// 在账号信息表中添加新账号(追加写入)
 	ofstream ofs(URL, ios::app);
@@ -34,18 +34,17 @@ void save_id_message(string _id, string _message, string _name, string _birthday
 	//实时更新map
 	list<string> Friend = {};
 	list<Moments> Circle_of_friends = {};
-	User user(_id, _message, _name, _birthday, Friend, Circle_of_friends);
+	User user(_id, _message, Friend, Circle_of_friends);
 	mp.insert(make_pair(_id, user));
 
 	// 在data下开一个存储新账号的区域
 	string file_name = "data\\" + _id + ".txt";
-	ofstream outFile(file_name);
+	ofstream outFile(file_name, ios_base::out);
 	/*
 	写入默认的User类信息
 	(当前仅做测试)
 	*/
-	outFile << "Hello, World!" << std::endl;
-	outFile << "This is a new file." << std::endl;
+	outFile << user;
 	outFile.close();
 
 }
@@ -97,7 +96,7 @@ void sign_in(map<string, User>& mp)
 				system("pause");
 				break;
 			}
-			save_id_message(_id, _message, _name, _birthday, mp);
+			save_id_message(_id, _message, mp);
 			cout << "您已成功注册，请登录" << endl;
 			system("pause");
 			break;

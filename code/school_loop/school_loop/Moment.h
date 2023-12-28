@@ -1,6 +1,6 @@
 #ifndef __MOMENT_H__
 #define __MOMENT_H__
-
+#include<vector>
 #include <iostream>
 #include <list>
 #include <iomanip>

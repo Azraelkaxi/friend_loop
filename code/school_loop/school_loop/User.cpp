@@ -1,4 +1,5 @@
 #include"User.h"
+#include<stdlib.h>
 
 User::~User() {}
 
@@ -24,10 +25,18 @@ User::User(const User& s)
 		this->Circle_of_friends.push_back(*it);
 }
 
-User::User(string _id, string _message, string _name, string _birthday, list<string> Friend, list<Moments> Circle_of_friends)
+User::User(string _id, string _message, list<string> Friend, list<Moments> Circle_of_friends, string _name = "", string _birthday = "XXXX-XX-XX")
 {
 	this->id = _id;
 	this->message = _message;
+	vector<string> v = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+	//string _name = "";
+	srand((unsigned int)time(NULL));
+	for (int i = 0; i < 10; i++)
+	{
+		int index = rand() % 10;
+		_name += v[index];
+	}
 	this->name = _name;
 	this->birthday = _birthday;
 	for (list<string>::iterator it = Friend.begin(); it != Friend.end(); ++it)
@@ -132,4 +141,27 @@ list<string> User::getFriend()
 list<Moments> User::getCircle_of_friends()
 {
 	return Circle_of_friends;
+}
+
+ostream& operator<<(ostream& o, const User &m)
+{
+	o << m.id << endl;
+	o << m.message << endl;
+	o << m.name << endl;
+	o << m.birthday << endl;
+	o << endl << endl;
+	o << "ºÃÓÑÁÐ±í" << endl;
+	list<string> str = m.Friend;
+	list<string>::iterator it;
+	for (it = str.begin(); it != str.end(); ++it)
+	{
+		o << *it << endl;
+	}
+	o << endl;
+	list<Moments> moments = m.Circle_of_friends;
+	list<Moments>::iterator mm;
+	for (mm = moments.begin(); mm != moments.end(); ++mm)
+	{
+		o << *mm << endl;
+	}
 }

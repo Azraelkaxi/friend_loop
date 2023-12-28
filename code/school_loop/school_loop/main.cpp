@@ -3,9 +3,68 @@
 #include"login.h"
 #include"tools.h"
 #include<map>
+
+void Init(map<string, User>& mp)
+{
+	string URL = "data\\校园朋友圈账号信息.txt";
+	string line;
+	ifstream ifs(URL, ios_base::in);
+	while (getline(ifs, line))
+	{
+		if (line.empty())
+		{
+			ifs.close();
+			break;
+		}
+		else
+		{
+			string File_name = line;
+			ifstream is(File_name, ios_base::in);
+			if (!is.is_open())
+			{
+				cout << "文件打开失败" << endl;
+			}
+			else
+			{
+				//读取基础信息
+				string _id, _message, _name, _birthday, line1, line2, line3;
+				//读取好友列表
+				list<string> _Friend;
+				is >> _id >> _message >> _name >> _birthday >> line1 >> line2 >> line3;
+				string line4;
+				while (getline(is, line4))
+				{
+					if (line4.empty())
+						break;
+					else
+					{
+						_Friend.push_back(line4);
+					}
+				}
+				//读取朋友圈
+				string _text, _date;
+				int _likes;
+				while (getline(is, line4))
+				{
+					if (line4.empty())
+						break;
+					else if (line4 == "#" || line4 == "*")
+						continue;
+					else
+					{
+
+					}
+				}
+			}
+		}
+	}
+}
+
 int main()
 {
 	map<string, User> mp;
+
+	Init(mp);
 
 	string my_id;
 
