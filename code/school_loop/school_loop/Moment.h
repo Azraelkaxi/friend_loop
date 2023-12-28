@@ -16,9 +16,7 @@ public:
 	Moments();
 	Moments(string t, string d, int l, list<Comment> comments);
 	~Moments();
-	/*
-	关于私有对象调用的函数
-	*/
+	Moments(Moments& t);
 	void setText();
 	void setDate();
 	void setLikes();
@@ -26,12 +24,10 @@ public:
 	auto getDate();
 	int getLikes();
 	void giveLike();
-
 	void writeComment();
 	void writeReply();
 	void showComment();
-
-
+	friend ostream& operator<<(ostream& o, const Moments &m);
 private:
 	// 文本
 	string text;
