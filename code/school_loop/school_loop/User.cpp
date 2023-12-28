@@ -113,22 +113,22 @@ void User::addCircle_of_friends(Moments m)
 //	
 //}
 
-string User::getId()
+string& User::getId()
 {
 	return this->id;
 }
 
-string User::getMessage()
+string& User::getMessage()
 {
 	return this->message;
 }
 
-string User::getBirthday()
+string& User::getBirthday()
 {
 	return this->birthday;
 }
 
-string User::getName()
+string& User::getName()
 {
 	return this->name;
 }
@@ -138,7 +138,7 @@ list<string>& User::getFriend()
 	return this->Friend;
 }
 
-list<Moments> User::getCircle_of_friends()
+list<Moments>& User::getCircle_of_friends()
 {
 	return Circle_of_friends;
 }

@@ -25,12 +25,12 @@ public:
 	void deleteFriend(string _id);
 	void addCircle_of_friends(Moments m);
 	//void deleteCircle_of_friends(Moments m);
-	string getId();
-	string getMessage();
-	string getName();
-	string getBirthday();
+	string& getId();
+	string& getMessage();
+	string& getName();
+	string& getBirthday();
 	list<string>& getFriend();
-	list<Moments> getCircle_of_friends();
+	list<Moments>& getCircle_of_friends();
 	friend ostream& operator<<(ostream& o, const User &m);
 };
 

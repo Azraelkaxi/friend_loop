@@ -4,6 +4,7 @@
 #include"tools.h"
 #include<map>
 
+// 初始化mp
 void Init(map<string, User>& mp)
 {
 	string URL = "data\\校园朋友圈账号信息.txt";
@@ -38,6 +39,7 @@ void Init(map<string, User>& mp)
 				getline(is, temp);
 				t.setBirthday(temp);
 
+				// 读取好友列表
 				getline(is, temp);
 				if (temp == "#")
 				{
@@ -48,9 +50,64 @@ void Init(map<string, User>& mp)
 						else
 						{
 							t.getFriend().push_back(temp);
-						}
+						} 
 					}
 				}
+
+				// 读朋友圈的信息
+				getline(is, temp );
+				while (temp == "#")
+				{
+					Moments moment;
+					string content = "";
+					
+					// 内容
+					while (getline(is, temp))
+					{
+						if (temp.empty() || temp == "#")
+							break;
+						else
+						{
+							content += temp + "\n";
+						}
+					}
+					moment.setText(content);
+
+					// 点赞和日期
+					getline(is, temp);
+					moment.setLikes(atoi(temp.c_str()));
+					getline(is, temp);
+					moment.setDate(temp);
+
+					// 评论
+					getline(is, temp);
+					if (temp == "#")
+					{
+						while (temp != "*")
+						{
+							getline(is, temp);
+							moment.writeComment(temp);
+							getline(is, temp);
+							while (!temp.empty())
+							{
+								if (temp == "*")
+								{
+									break;
+								}
+								moment.writeReply(temp);
+								getline(is, temp);
+							}
+						}
+
+					}
+					t.getCircle_of_friends().push_back(moment);
+
+					// 读出是否有下一条朋友圈
+					getline(is, temp);
+
+				}
+
+				// 将读出的user对象放入到mp中
 				mp.insert(make_pair(t.getId(), t));
 
 			}

@@ -35,6 +35,11 @@ void Moments::setText()
 	setDate();
 }
 
+void Moments::setText(string s)
+{
+	text = s;
+}
+
 void Moments::setDate()
 {
 	time_t now = time(0);
@@ -45,9 +50,19 @@ void Moments::setDate()
 	date = ss.str();
 }
 
+void Moments::setDate(string s)
+{
+	date = s;
+}
+
 void Moments::setLikes()
 {
 	likes = 0;
+}
+
+void Moments::setLikes(int x)
+{
+	likes = x;
 }
 
 auto Moments::getText()
@@ -79,11 +94,21 @@ void Moments::writeComment()
 	comments.push_back({ s });
 }
 
+void Moments::writeComment(string s)
+{
+	comments.push_back({ s });
+}
+
 void Moments::writeReply()
 {
 	string s;
 	cout << "ÇëÊäÈë»Ø¸´" << endl;
 	cin >> s;
+	comments.back().reply.push_back(s);
+}
+
+void Moments::writeReply(string s)
+{
 	comments.back().reply.push_back(s);
 }
 
