@@ -1,10 +1,7 @@
-#define _CRT_SECURE_NO_WARNINGS 1
-
+#define _CRT_SECURE_NO_WARNINGS 
 #include"User.h"
 #include"login.h"
-#include"Postonmoments.h"
-#include"Seefriendcircle.h"
-#include"addfriend.h"
+#include"tools.h"
 #include<map>
 int main()
 {
@@ -22,13 +19,14 @@ int main()
 		cout << "       1. 发朋友圈       " << endl;
 		cout << "       2. 看朋友圈       " << endl;
 		cout << "       3. 加好友         " << endl;
-		cout << "       4. 退出           " << endl;
+		cout << "       4. 修改自身信息   " << endl;
+		cout << "       5. 退出           " << endl;
 		cout << "-------------------------" << endl;
 		cout << "请输入您的选择：" << endl;
 		int choice;
 		cin >> choice;
 
-		switch(choice)
+		switch (choice)
 		{
 			case 1:
 				Post_on_moments(mp, my_id);
@@ -37,9 +35,15 @@ int main()
 				see_friend_circle(mp, my_id);
 				break;
 			case 3:
-				Add_friend(mp, my_id);
+			{
+				string _friend_name_ = Add_friend(mp, my_id);
+				cout << "该好友的网名为：" << _friend_name_ << endl;
 				break;
+			}
 			case 4:
+				//change_infomation(mp, my_id);
+				break;
+			case 5:
 				return 0;
 		}
 	}

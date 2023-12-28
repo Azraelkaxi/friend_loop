@@ -1,6 +1,5 @@
 #include "Moment.h"
 
-
 Moments::Moments() {}
 
 Moments::Moments(string t, string d, int l, list<Comment> comments)
