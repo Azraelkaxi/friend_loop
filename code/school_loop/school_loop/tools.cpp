@@ -1,8 +1,45 @@
 #include"tools.h"
 
+//显示信息
+void display(map<string, User> mp, string _id_)
+{
+	for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+	{
+		if (it->first == _id_)
+		{
+			cout << "学号：" << it->first << endl;
+			cout << "密码：" << it->second.getMessage() << endl;
+			cout << "网名：" << it->second.getName() << endl;
+			cout << "生日：" << it->second.getBirthday() << endl;
+			break;
+		}
+	}
+}
 //刷新好友列表
-void refresh_friend_list(string my_id, string _id);
-
+void refresh_friend_list(map<string, User>& mp, string my_id, string _id, int flag)
+{
+	map<string, User>::iterator it;
+	if (flag == 1)
+	{
+		for (it = mp.begin(); it != mp.end(); ++it)
+		{
+			if (it->first == my_id)
+			{
+				it->second.addFriend(_id);
+			}
+		}
+	}
+	else if (flag == 0)
+	{
+		for (it = mp.begin(); it != mp.end(); ++it)
+		{
+			if (it->first == my_id)
+			{
+				it->second.deleteFriend(_id);
+			}
+		}
+	}
+}
 //加好友，并返回好友网名
 string Add_friend(map<string, User>& mp, string my_id)
 {
@@ -21,14 +58,57 @@ string Add_friend(map<string, User>& mp, string my_id)
 				cout << "已经找到该人" << endl;
 				Sleep(1000);
 				//刷新好友列表
-				//refresh_friend_list(my_id, _id);
+				refresh_friend_list(mp, my_id, _id, 1);
 				return it->second.getName();
 			}
 		}
 		return "NotFound";
 	}
 }
-
+//删好友
+void deletefriend(map<string, User> &mp, string my_id)
+{
+	while (1)
+	{
+		system("cls");
+		cout << "请输入您要删的好友学号(输入out返回)： " << endl;
+		string _id;
+		cin >> _id;
+		if (_id == "out")
+			return;
+		for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+		{
+			if (it->first == my_id)
+			{
+				list<string> _friend_ = it->second.getFriend();
+				list<string>::iterator is;
+				for (is = _friend_.begin(); is != _friend_.end(); ++is)
+				{
+					if (*is == _id)
+					{
+						cout << "已找到该人, 以下是其信息：" << endl;
+						display(mp, _id);
+						cout << "请确认是否删除(0或1)： " << endl;
+						int choice;
+						cin >> choice;
+						if (choice == 0)
+						{
+							break;
+						}
+						else
+						{
+							refresh_friend_list(mp, my_id, _id, 0);
+							cout << "删除成功" << endl;
+							system("pause");
+							break;
+						}
+					}
+				}
+				break;
+			}
+		}
+	}
+}
 //发布朋友圈
 void Post_on_moments(map<string, User>& mp, string my_id)
 {
@@ -51,7 +131,7 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 
 	string _date = formattedTime.str();
 	//获取点赞
-	int _likes;
+	int _likes = 0;
 
 	//写入操作，待定  时间自动获取  点赞默认为0
 	string title = my_id + ".txt";
@@ -86,7 +166,6 @@ void Post_a_review(map<string, User>& mp, string my_id);
 void Reply_to_a_review(map<string, User>& mp, string my_id);
 
 //进行点赞
-
 
 //实时更新文本文件
 

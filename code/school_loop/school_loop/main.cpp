@@ -133,8 +133,9 @@ int main()
 		cout << "       1. 发朋友圈       " << endl;
 		cout << "       2. 看朋友圈       " << endl;
 		cout << "       3. 加好友         " << endl;
-		cout << "       4. 修改自身信息   " << endl;
-		cout << "       5. 退出           " << endl;
+		cout << "       4. 删好友         " << endl;
+		cout << "       5. 修改自身信息   " << endl;
+		cout << "       6. 退出           " << endl;
 		cout << "-------------------------" << endl;
 		cout << "请输入您的选择：" << endl;
 		int choice;
@@ -155,9 +156,12 @@ int main()
 				break;
 			}
 			case 4:
-				Change(mp, my_id);
+				deletefriend(mp, my_id);
 				break;
 			case 5:
+				Change(mp, my_id);
+				break;
+			case 6:
 				return 0;
 		}
 	}

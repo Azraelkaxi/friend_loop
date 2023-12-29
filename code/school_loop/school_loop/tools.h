@@ -9,10 +9,13 @@
 using namespace std;
 
 //刷新好友列表
-void refresh_friend_list(string my_id, string _id);
+void refresh_friend_list(map<string, User> &mp, string my_id, string _id);
 
 //加好友，并返回好友网名
 string Add_friend(map<string, User>& mp, string my_id);
+
+//删好友
+void deletefriend(map<string, User> &mp, string my_id);
 
 //发布朋友圈
 void Post_on_moments(map<string, User>& mp, string my_id);
