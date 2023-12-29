@@ -155,7 +155,7 @@ int main()
 				break;
 			}
 			case 4:
-				//change_infomation(mp, my_id);
+				Change(mp, my_id);
 				break;
 			case 5:
 				return 0;
