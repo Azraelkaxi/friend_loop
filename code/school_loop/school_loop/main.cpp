@@ -68,7 +68,7 @@ void Init(map<string, User>& mp)
 							break;
 						else
 						{
-							content += temp;
+							content += temp + "\n";
 						}
 					}
 					moment.setText(content);
@@ -83,13 +83,9 @@ void Init(map<string, User>& mp)
 					getline(is, temp);
 					if (temp == "#")
 					{
-						while (temp != "*" && !temp.empty())
+						while (temp != "*")
 						{
 							getline(is, temp);
-							if (temp == "*")
-							{
-								break;
-							}
 							moment.writeComment(temp);
 							getline(is, temp);
 							while (!temp.empty())
@@ -119,25 +115,6 @@ void Init(map<string, User>& mp)
 	}
 }
 
-// 结束时将mp写会到数据库
-void endWrite(map<string, User>& mp) {
-
-	map<string, User>::iterator pos;
-	for (pos = mp.begin(); pos != mp.end(); ++pos)
-	{
-		string url = (*pos).second.getId();
-		url = "data\\" + url + ".txt";
-
-		// 打开文件并清空内容
-		ofstream outfile(url, ios::trunc);
-
-		// 写入新的内容
-		outfile << (*pos).second;
-
-	}
-
-}
-
 int main()
 {
 	map<string, User> mp;
@@ -152,15 +129,23 @@ int main()
 	while (1)
 	{
 		system("cls");
-		cout << "-------------------------" << endl;
-		cout << "    欢迎进入校园朋友圈   " << endl;
-		cout << "       1. 发朋友圈       " << endl;
-		cout << "       2. 看朋友圈       " << endl;
-		cout << "       3. 加好友         " << endl;
-		cout << "       4. 删好友         " << endl;
-		cout << "       5. 修改自身信息   " << endl;
-		cout << "       6. 退出           " << endl;
-		cout << "-------------------------" << endl;
+		cout << "╔════════════════════════════════════════╗" << endl;
+		cout << "║          欢迎进入校园朋友圈            ║" << endl;
+		cout << "╠════════════════════════════════════════╣" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             1. 发朋友圈                ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             2. 看朋友圈                ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             3. 添加好友                ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             4. 删除好友                ║" << endl;
+		cout << "║                                        ║" << endl; 
+		cout << "║             5. 修改自身信息            ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             6. 退出                    ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "╚════════════════════════════════════════╝" << endl;
 		cout << "请输入您的选择：" << endl;
 		int choice;
 		cin >> choice;
@@ -186,7 +171,6 @@ int main()
 				Change(mp, my_id);
 				break;
 			case 6:
-				endWrite(mp);
 				return 0;
 		}
 	}
