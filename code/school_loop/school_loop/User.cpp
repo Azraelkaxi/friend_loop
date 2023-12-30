@@ -73,7 +73,8 @@ void User::addFriend(string _id)
 	{
 		if (*it == _id)
 		{
-			cout << "已添加" << endl;
+			cout << "您已经添加过对方" << endl;
+			system("pause");
 			return;
 		}
 	}

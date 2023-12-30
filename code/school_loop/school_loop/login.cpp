@@ -126,8 +126,6 @@ int check(string _id, string _message, map<string, User>& mp)
 					}
 					else
 					{
-						cout << it->second.getMessage() << endl;
-						Sleep(3000);
 						ifs.close();
 						return 1;
 					}
@@ -148,15 +146,29 @@ int check_in(map<string, User>& mp)
 		cout << "ÇëÊäÈëÄúµÄÕËºÅ £º" << endl;
 		cin >> _id;
 		cout << "ÇëÊäÈëÄúµÄÃÜÂë £º" << endl;
+		_message = "";
 		while (1)
 		{
+			
 			char c = _getch();//getch()²»»áÏòÖÕ¶Ë»ØÏÔ×Ö·û
 			if (c == '\r')
 			{
 				break;
 			}
-			printf("*");
-			_message += c;
+			else if (c == '\b') {  // Backspace¼ü
+				if (!_message.empty()) {
+					// É¾³ı×îºóÒ»¸ö×Ö·û
+					_message.pop_back();
+
+					// ÏòÖÕ¶Ë»ØÏÔÍË¸ñ
+					printf("\b \b");
+				}
+			}
+			else
+			{
+				printf("*");
+				_message += c;
+			}
 		}
 		cout << endl;
 		if (check(_id, _message, mp) == 0)
