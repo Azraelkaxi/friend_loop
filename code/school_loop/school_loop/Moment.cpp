@@ -89,6 +89,11 @@ int Moments::getLikes()
 	return likes;
 }
 
+list<Comment> Moments::getComments()
+{
+	return this->comments;
+}
+
 void Moments::giveLike()
 {
 	likes++;
@@ -108,12 +113,18 @@ void Moments::writeComment(string s)
 	comments.push_back({ s });
 }
 
-void Moments::writeReply()
+void Moments::writeReply(int num)
 {
 	string s;
 	cout << "ÇëÊäÈë»Ø¸´" << endl;
 	cin >> s;
-	comments.back().reply.push_back(s);
+	list<Comment>::iterator it = this->comments.begin();
+	while (--num)
+	{
+		++it;
+	}
+	it->reply.push_back(s);
+	//comments.back().reply.push_back(s);
 }
 
 void Moments::writeReply(string s)

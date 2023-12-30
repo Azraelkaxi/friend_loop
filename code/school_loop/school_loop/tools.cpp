@@ -171,7 +171,17 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 		}
 	}
 }
-
+//发表评论和回复
+//void publication(list<Moments>::iterator& it)
+//{
+//	while (1)
+//	{
+//		cout << "1. 发表评论" << endl;
+//		cout << "2. 进行点赞" << endl;
+//		cout << "3. 进行回复" << endl;
+//		cout << ""
+//	}
+//}
 //刷朋友圈
 void begin_to_see(map<string, User> &mp, string my_id)
 {
@@ -196,33 +206,64 @@ void begin_to_see(map<string, User> &mp, string my_id)
 						list<Moments> _friend_circle = is->second.getCircle_of_friends();
 						for (list<Moments>::iterator it1 = _friend_circle.begin(); it1 != _friend_circle.end(); ++it1)
 						{
+						start:
 							system("cls");
 							cout << "网名：" << is->first << endl;
 							cout << "内容：" << it1->getText();
 							cout << "日期：" << it1->getDate() << endl;
 							cout << "点赞数：" << it1->getLikes() << endl;
 							it1->showComment();
-							cout << "按1继续, 按0退出: " << endl;
-							int v;
-							cin >> v;
-							if (v == 1)
+							while (1)
 							{
-								continue;
-							}
-							else if (v == 0)
-							{
-								return;
+								cout << "1. 下一条" << endl;
+								cout << "2. 进行点赞" << endl;
+								cout << "3. 进行评论" << endl;
+								cout << "4. 进行回复" << endl;
+								cout << "请输入您的选择： " << endl;
+								int choice;
+								cin >> choice;
+								switch (choice)
+								{
+									case 1:
+										break;
+									case 2:
+										it1->giveLike();
+										goto start;
+										break;
+									case 3:
+										it1->writeComment();
+										goto start;
+										break;
+									case 4:
+									ss:
+										cout << "请输入您要回复的评论编号：" << endl;
+										int num;
+										cin >> num;
+										if (num > it1->getComments().size())
+										{
+											cout << "并无此条评论" << endl;
+											goto ss;
+										}
+										else
+										{
+											it1->writeReply(num);
+											goto start;
+										}
+										break;
+								}
+								break;
 							}
 						}
-						cout << "已经到底了" << endl;
-						cout << "按0退出" << endl;
-						int y;
-						cin >> y;
-						if (y == 0)
-							return;
+						
 					}
 				}
 			}
+			cout << "已经到底了" << endl;
+			cout << "按0退出" << endl;
+			int y;
+			cin >> y;
+			if (y == 0)
+				return;
 		}
 	}
 }

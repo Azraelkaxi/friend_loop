@@ -68,8 +68,20 @@ void sign_in(map<string, User>& mp)
 			{
 				break;
 			}
-			printf("*");
-			_message += c;
+			else if (c == '\b') {  // Backspace键
+				if (!_message.empty()) {
+					// 删除最后一个字符
+					_message.pop_back();
+
+					// 向终端回显退格
+					printf("\b \b");
+				}
+			}
+			else
+			{
+				printf("*");
+				_message += c;
+			}
 		}
 		cout << endl;
 		cout << "请确认密码(仅支持字母和数字): " << endl;
@@ -80,8 +92,20 @@ void sign_in(map<string, User>& mp)
 			{
 				break;
 			}
-			printf("*");
-			re_message += c;
+			else if (c == '\b') {  // Backspace键
+				if (!_message.empty()) {
+					// 删除最后一个字符
+					_message.pop_back();
+
+					// 向终端回显退格
+					printf("\b \b");
+				}
+			}
+			else
+			{
+				printf("*");
+				re_message += c;
+			}
 		}
 		cout << endl;
 		if (re_message == _message)
@@ -100,6 +124,7 @@ void sign_in(map<string, User>& mp)
 		else
 		{
 			cout << "两次输入的密码不一致，请重新注册" << endl;
+			system("pause");
 			continue;
 		}
 	}

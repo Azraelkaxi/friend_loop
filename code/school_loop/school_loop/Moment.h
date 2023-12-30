@@ -26,11 +26,12 @@ public:
 	void setLikes(int x);
 	string getText();
 	string getDate();
+	list<Comment> getComments();
 	int getLikes();
 	void giveLike();
 	void writeComment();
 	void writeComment(string s);
-	void writeReply();
+	void writeReply(int num);
 	void writeReply(string s);
 	void showComment();
 	friend ostream& operator<<(ostream& o, const Moments &m);
