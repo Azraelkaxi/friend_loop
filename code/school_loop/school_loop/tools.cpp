@@ -171,114 +171,143 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 		}
 	}
 }
-//发表评论和回复
-//void publication(list<Moments>::iterator& it)
-//{
-//	while (1)
-//	{
-//		cout << "1. 发表评论" << endl;
-//		cout << "2. 进行点赞" << endl;
-//		cout << "3. 进行回复" << endl;
-//		cout << ""
-//	}
-//}
+
 //刷朋友圈
-void begin_to_see(map<string, User> &mp, string my_id)
+void begin_to_see(map<string, User>& mp, string my_id)
 {
-	for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+	map<string, User>::iterator it = mp.find(my_id);
+	if (it == mp.end()) {
+		cout << "未找到该学号对应的用户" << endl;
+		system("pause");
+		return;
+	}
+
+	User& user = it->second;
+	list<string> _friend = user.getFriend();
+
+	if (_friend.empty())
 	{
-		if (it->first == my_id)
+		cout << "您未加任何好友，请先加一些好友再来吧" << endl;
+		system("pause");
+		return;
+	}
+
+	for (list<string>::iterator it = _friend.begin(); it != _friend.end(); ++it)
+	{
+		map<string, User>::iterator is = mp.find(*it);
+		if (is == mp.end()) {
+			cout << "未找到该好友的信息" << endl;
+			continue;
+		}
+
+		list<Moments> _friend_circle = is->second.getCircle_of_friends();
+		for (list<Moments>::iterator it1 = _friend_circle.begin(); it1 != _friend_circle.end(); ++it1)
 		{
-			list<string> _friend = it->second.getFriend();
-			if (_friend.empty())
+			system("cls");
+			cout << "网名：" << is->first << endl;
+			cout << "内容：" << it1->getText();
+			cout << "日期：" << it1->getDate() << endl;
+			cout << "点赞数：" << it1->getLikes() << endl;
+			it1->showComment();
+			cout << "按1继续, 按0退出: " << endl;
+			int v;
+			cin >> v;
+			if (v == 1)
 			{
-				cout << "您未加任何好友，请先加一些好友再来吧" << endl;
-				system("pause");
+				continue;
+			}
+			else if (v == 0)
+			{
 				return;
 			}
-			for (list<string>::iterator it = _friend.begin(); it != _friend.end(); ++it)
-			{
-				map<string, User>::iterator is;
-				for (is = mp.begin(); is != mp.end(); ++is)
-				{
-					if (is->first == *it)
-					{
-						list<Moments> _friend_circle = is->second.getCircle_of_friends();
-						for (list<Moments>::iterator it1 = _friend_circle.begin(); it1 != _friend_circle.end(); ++it1)
-						{
-						start:
-							system("cls");
-							cout << "网名：" << is->first << endl;
-							cout << "内容：" << it1->getText();
-							cout << "日期：" << it1->getDate() << endl;
-							cout << "点赞数：" << it1->getLikes() << endl;
-							it1->showComment();
-							while (1)
-							{
-								cout << "1. 下一条" << endl;
-								cout << "2. 进行点赞" << endl;
-								cout << "3. 进行评论" << endl;
-								cout << "4. 进行回复" << endl;
-								cout << "请输入您的选择： " << endl;
-								int choice;
-								cin >> choice;
-								switch (choice)
-								{
-									case 1:
-										break;
-									case 2:
-										it1->giveLike();
-										goto start;
-										break;
-									case 3:
-										it1->writeComment();
-										goto start;
-										break;
-									case 4:
-									ss:
-										cout << "请输入您要回复的评论编号：" << endl;
-										int num;
-										cin >> num;
-										if (num > it1->getComments().size())
-										{
-											cout << "并无此条评论" << endl;
-											goto ss;
-										}
-										else
-										{
-											it1->writeReply(num);
-											goto start;
-										}
-										break;
-								}
-								break;
-							}
-						}
-						
+		}
+		cout << "已经到底了" << endl;
+		cout << "按0退出" << endl;
+		int y;
+		cin >> y;
+		if (y == 0)
+			return;
+	}
+}
+
+
+//查找某个人发的朋友圈
+void query_friend_circle(map<string, User>& mp, string my_id)
+{
+	while (true) {
+		system("cls");
+		cout << "请输入要查找朋友圈的学号：" << endl;
+		string target_id;
+		cin >> target_id;
+
+		map<string, User>::iterator it;
+		for (it = mp.begin(); it != mp.end(); it++) {
+			if (it->first == target_id) {
+				int flag = 0;
+				list<Moments> friend_moments = it->second.getCircle_of_friends();
+				if (friend_moments.empty()) {
+					cout << "该用户还没有发布朋友圈" << endl;
+					flag = 1;
+				}
+				else {
+					list<Moments>::iterator it_m;
+					for (it_m = friend_moments.begin(); it_m != friend_moments.end(); it_m++) {
+						cout << "内容：" << it_m->getText();
+						cout << "日期：" << it_m->getDate() << endl;
+						cout << "点赞数：" << it_m->getLikes() << endl;
 					}
+					flag = 1;
+				}
+				if (flag) {
+					system("pause");
+					break;
 				}
 			}
-			cout << "已经到底了" << endl;
-			cout << "按0退出" << endl;
-			int y;
-			cin >> y;
-			if (y == 0)
-				return;
+		}
+
+		if (it == mp.end()) {
+			cout << "未找到该学号对应的用户" << endl;
+			system("pause");
+		}
+		else {
+			break;
 		}
 	}
 }
 
-//查找某个人发的朋友圈
-void query_friend_circle()
-{
-
-}
 
 //删除自己发的某条朋友圈
-void delete_friend_circle()
-{
+void delete_friend_circle(map<string, User>& mp, string my_id) {
+	auto it = mp.find(my_id);
+	User& user = it->second;
+	list<Moments>& friend_moments = user.getCircle_of_friends();
 
+	if (friend_moments.empty()) {
+		cout << "您还没有发布朋友圈" << endl;
+		return;
+	}
+
+	cout << "请输入要删除的朋友圈内容：" << endl;
+	string content;
+	cin.ignore(); // 忽略之前的换行符
+	getline(cin, content);
+
+	bool found = false; // 是否找到要删除的朋友圈
+	list<Moments>::iterator it_m;
+	for (it_m = friend_moments.begin(); it_m != friend_moments.end(); it_m++) {
+		if (it_m->getText() == content) {
+			friend_moments.erase(it_m);
+			cout << "成功删除朋友圈" << endl;
+			found = true;
+			break;
+		}
+	}
+
+	if (!found) {
+		cout << "未找到对应内容的朋友圈" << endl;
+	}
 }
+
 
 //实现刷朋友圈，待定。
 //还可以实现查找某个人特定朋友圈，删除朋友圈等
@@ -288,14 +317,19 @@ void see_friend_circle(map<string, User>& mp, string my_id)
 	while (1)
 	{
 		system("cls");
-		cout << "---------------------------------" << endl;
-		cout << "         欢迎进入朋友圈          " << endl;
-		cout << "---------------------------------" << endl;
-		cout << "         1. 开始刷朋友圈         " << endl;
-		cout << "         2. 查找朋友圈           " << endl;
-		cout << "         3. 删除朋友圈           " << endl;
-		cout << "         4. 退出                 " << endl;
-		cout << "---------------------------------" << endl;
+		cout << "╔════════════════════════════════════════╗" << endl;
+		cout << "║            欢迎进入朋友圈              ║" << endl;
+		cout << "╠════════════════════════════════════════╣" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             1. 刷朋友圈                ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             2. 查找朋友圈              ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             3. 删除朋友圈              ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             4. 退出                    ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "╚════════════════════════════════════════╝" << endl;
 		cout << "请输入您的选择: " << endl;
 		int choice;
 		cin >> choice;
@@ -306,10 +340,10 @@ void see_friend_circle(map<string, User>& mp, string my_id)
 				begin_to_see(mp, my_id);
 				break;
 			case 2:
-				query_friend_circle();
+				query_friend_circle(mp, my_id);
 				break;
 			case 3:
-				delete_friend_circle();
+				delete_friend_circle(mp, my_id);
 				break;
 			case 4:
 				return ;
@@ -421,5 +455,3 @@ void Change(map<string, User>& mp, string my_id)
 		}
 	}
 }
-
-
