@@ -134,11 +134,11 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 	int _likes = 0;
 
 	//写入操作，待定  时间自动获取  点赞默认为0
-	string title = my_id + ".txt";
+	string title = "data\\" + my_id + ".txt";
 	ofstream ofs(title, ios::app);
-	ofs << "0" << endl;
+	ofs << "#" << endl;
 	ofs << _text << endl;
-	ofs << "1" << endl;
+	ofs << "#" << endl;
 
 	ofs.close();
 	cout << "发布成功" << endl;

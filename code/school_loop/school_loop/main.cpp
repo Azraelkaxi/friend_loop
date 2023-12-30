@@ -128,6 +128,7 @@ int main()
 	system("cls");
 	while (1)
 	{
+		system("cls");
 		cout << "-------------------------" << endl;
 		cout << "    »¶Ó­½øÈëÐ£Ô°ÅóÓÑÈ¦   " << endl;
 		cout << "       1. ·¢ÅóÓÑÈ¦       " << endl;
