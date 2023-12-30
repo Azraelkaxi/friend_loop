@@ -15,6 +15,7 @@ class Moments
 public:
 	Moments();
 	Moments(string t, string d, int l, list<Comment> comments);
+	Moments(string t, string d, int l);
 	~Moments();
 	Moments(const Moments& t);
 	void setText();

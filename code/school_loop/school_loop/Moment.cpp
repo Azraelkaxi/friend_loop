@@ -13,6 +13,15 @@ Moments::Moments(string t, string d, int l, list<Comment> comments)
 	}
 }
 
+Moments::Moments(string t, string d, int l)
+{
+	text = t;
+	date = d;
+	likes = l;
+	
+}
+
+
 Moments::~Moments() {}
 
 Moments::Moments(const Moments& _t) {
