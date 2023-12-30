@@ -74,12 +74,12 @@ void Moments::setLikes(int x)
 	likes = x;
 }
 
-auto Moments::getText()
+string Moments::getText()
 {
 	return text;
 }
 
-auto Moments::getDate()
+string Moments::getDate()
 {
 	return date;
 }

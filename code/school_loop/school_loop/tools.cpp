@@ -21,22 +21,41 @@ void refresh_friend_list(map<string, User>& mp, string my_id, string _id, int fl
 	map<string, User>::iterator it;
 	if (flag == 1)
 	{
+		int a = 0;
 		for (it = mp.begin(); it != mp.end(); ++it)
 		{
 			if (it->first == my_id)
 			{
 				it->second.addFriend(_id);
+				a++;
 			}
+			if (it->first == _id)
+			{
+				it->second.addFriend(my_id);
+				a++;
+			}
+			if (a == 2)
+				break;
 		}
+
 	}
 	else if (flag == 0)
 	{
+		int b = 0;
 		for (it = mp.begin(); it != mp.end(); ++it)
 		{
 			if (it->first == my_id)
 			{
 				it->second.deleteFriend(_id);
+				b++;
 			}
+			if (it->first == _id)
+			{
+				it->second.deleteFriend(my_id);
+				b++;
+			}
+			if (b == 2)
+				break;
 		}
 	}
 }
@@ -136,28 +155,126 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 	//写入操作，待定  时间自动获取  点赞默认为0
 	string title = "data\\" + my_id + ".txt";
 	ofstream ofs(title, ios::app);
-	ofs << "#" << endl;
-	ofs << _text << endl;
-	ofs << "#" << endl;
+	Comment c;
+	list<Comment> _comment_;
+	_comment_.push_back(c);
+	Moments _m(_text, _date, _likes, _comment_);
+	ofs << _m;
 
 	ofs.close();
-	cout << "发布成功" << endl;
-	system("pause");
+	for (auto it = mp.begin(); it != mp.end(); ++it)
+	{
+		if (it->first == my_id)
+		{
+			it->second.addCircle_of_friends(_m);
+			break;
+		}
+	}
+}
+
+//刷朋友圈
+void begin_to_see(map<string, User> &mp, string my_id)
+{
+	for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+	{
+		if (it->first == my_id)
+		{
+			list<string> _friend = it->second.getFriend();
+			if (_friend.empty())
+			{
+				cout << "您未加任何好友，请先加一些好友再来吧" << endl;
+				system("pause");
+				return;
+			}
+			for (list<string>::iterator it = _friend.begin(); it != _friend.end(); ++it)
+			{
+				map<string, User>::iterator is;
+				for (is = mp.begin(); is != mp.end(); ++is)
+				{
+					if (is->first == *it)
+					{
+						list<Moments> _friend_circle = is->second.getCircle_of_friends();
+						for (list<Moments>::iterator it1 = _friend_circle.begin(); it1 != _friend_circle.end(); ++it1)
+						{
+							system("cls");
+							cout << "网名：" << is->first << endl;
+							cout << "内容：" << it1->getText();
+							cout << "日期：" << it1->getDate() << endl;
+							cout << "点赞数：" << it1->getLikes() << endl;
+							it1->showComment();
+							cout << "按1继续, 按0退出: " << endl;
+							int v;
+							cin >> v;
+							if (v == 1)
+							{
+								continue;
+							}
+							else if (v == 0)
+							{
+								return;
+							}
+						}
+						cout << "已经到底了" << endl;
+						cout << "按0退出" << endl;
+						int y;
+						cin >> y;
+						if (y == 0)
+							return;
+					}
+				}
+			}
+		}
+	}
+}
+
+//查找某个人发的朋友圈
+void query_friend_circle()
+{
+
+}
+
+//删除自己发的某条朋友圈
+void delete_friend_circle()
+{
+
 }
 
 //实现刷朋友圈，待定。
-//还可以实现查找某条特定朋友圈，删除朋友圈等
+//还可以实现查找某个人特定朋友圈，删除朋友圈等
 //发布评论 回复某条评论  进行点赞  进行上述动作的同时，要实时更新文本文件
 void see_friend_circle(map<string, User>& mp, string my_id)
 {
+	while (1)
+	{
+		system("cls");
+		cout << "---------------------------------" << endl;
+		cout << "         欢迎进入朋友圈          " << endl;
+		cout << "---------------------------------" << endl;
+		cout << "         1. 开始刷朋友圈         " << endl;
+		cout << "         2. 查找朋友圈           " << endl;
+		cout << "         3. 删除朋友圈           " << endl;
+		cout << "         4. 退出                 " << endl;
+		cout << "---------------------------------" << endl;
+		cout << "请输入您的选择: " << endl;
+		int choice;
+		cin >> choice;
+
+		switch (choice)
+		{
+			case 1:
+				begin_to_see(mp, my_id);
+				break;
+			case 2:
+				query_friend_circle();
+				break;
+			case 3:
+				delete_friend_circle();
+				break;
+			case 4:
+				return ;
+		}
+	}
 }
-
-
-//查找某条朋友圈
-
-//删除某条朋友圈
-
-
 
 //发布评论, 传入参数可更改
 void Post_a_review(map<string, User>& mp, string my_id);
@@ -263,3 +380,5 @@ void Change(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
+

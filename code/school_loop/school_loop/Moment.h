@@ -24,8 +24,8 @@ public:
 	void setDate(string s);
 	void setLikes();
 	void setLikes(int x);
-	auto getText();
-	auto getDate();
+	string getText();
+	string getDate();
 	int getLikes();
 	void giveLike();
 	void writeComment();
@@ -49,7 +49,7 @@ class Comment
 {
 public:
 	// 评论
-	string text;
+	string text = "";
 	// 回复
 	list<string> reply = {};
 };
