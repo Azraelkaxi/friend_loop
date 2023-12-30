@@ -168,23 +168,23 @@ ostream& operator<<(ostream& o, const Moments& m)
 	o << m.likes << endl;
 	o << m.date << endl;
 	o << "#" << endl;
-	int commentIndex = 1;
 	for (auto commentIt = m.comments.begin(); commentIt != m.comments.end(); ++commentIt)
 	{
-		const Comment& comment = *commentIt;
-		o << "ÆÀÂÛ" << commentIndex << ": " << comment.text << endl;
-		if (!comment.reply.empty())
+		if (!(*commentIt).text.empty())
 		{
-			int replyIndex = 1;
-			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)
+			const Comment& comment = *commentIt;
+			o << comment.text << endl;
+			if (!comment.reply.empty())
 			{
-				const string& reply = *replyIt;
-				o << "»Ø¸´" << replyIndex << ": " << reply << endl;
-				++replyIndex;
+
+				for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)
+				{
+					const string& reply = *replyIt;
+					o << reply << endl;
+				}
+				o << endl;
 			}
-			o << endl;
 		}
-		++commentIndex;
 	}
 	o << "*" << endl;
 	return o;
