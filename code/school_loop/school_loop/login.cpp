@@ -284,12 +284,15 @@ string login(map<string, User>& mp)
 	while (1)
 	{
 		system("cls");
-		cout << "------------------------" << endl;
-		cout << "-      Ð£Ô°ÅóÓÑÈ¦      -" << endl;
-		cout << "-       1. µÇÂ¼        -" << endl;
-		cout << "-       2. ×¢²á        -" << endl;
-		cout << "-       3.Íü¼ÇÃÜÂë     -" << endl;
-		cout << "------------------------" << endl;
+		cout << "====================================" << endl;
+		cout << "-        »¶Ó­À´µ½Ð£Ô°ÅóÓÑÈ¦        -" << endl;
+		cout << "====================================" << endl;
+		cout << "-                                  -" << endl;
+		cout << "-            1. µÇÂ¼               -" << endl;
+		cout << "-            2. ×¢²á               -" << endl;
+		cout << "-            3.Íü¼ÇÃÜÂë            -" << endl;
+		cout << "-                                  -" << endl;
+		cout << "====================================" << endl;
 		cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º" << endl;
 		int choice = 0, ans = 10;
 		cin >> choice;
