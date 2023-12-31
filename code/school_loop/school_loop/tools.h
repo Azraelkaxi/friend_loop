@@ -30,4 +30,5 @@ void delete_friend_circle(map<string, User>& mp, string my_id);
 //ÐÞ¸ÄÐÅÏ¢
 void Change(map<string, User>& mp, string my_id);
 
+void Leaderboard(map<string, User>& mp);
 #endif // !__TOOL_H__

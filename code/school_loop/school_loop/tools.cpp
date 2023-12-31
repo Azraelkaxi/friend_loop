@@ -717,3 +717,77 @@ void Change(map<string, User>& mp, string my_id)
 	}
 }
 
+//热门榜单
+void Leaderboard(map<string, User>& mp)
+{
+	map<int, pair<string, string>> mmp;
+	string line;
+	ifstream ifs(line, ios_base::in);
+	while (getline(ifs, line))
+	{
+		if (line.empty())
+			break;
+		else
+		{
+			for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+			{
+				if (it->first == line)
+				{
+					for (list<Moments>::iterator is = it->second.getCircle_of_friends().begin(); is != it->second.getCircle_of_friends().end(); ++is)
+					{
+						int _likes = is->getLikes();
+						string _text = is->getText();
+						string _id = line;
+						pair<string, string> _p(_text, _id);
+						mmp.insert(make_pair(_likes, _p));
+					}
+				}
+			}
+		}
+	}
+	int max_index = 6;
+	while (1)
+	{
+	start:
+		system("cls");
+		if (mmp.size() < max_index)
+		{
+			int index = 1;
+			for (auto itt = mmp.rbegin(); itt != mmp.rend(); ++itt)
+			{
+				cout << index << "." << itt->second.second << ":" << itt->second.first << endl;
+				index++;
+			}
+			cout << "没有更多了" << endl;
+			cout << "按0退出";
+			int c;
+			cin >> c;
+			if (c == 0)
+				return;
+		}
+		else
+		{
+			int index = 1;
+			for (auto itt = mmp.rbegin(); itt != mmp.rend() && index <= mmp.size(); ++itt)
+			{
+				cout << index << "." << itt->second.second << ":" << itt->second.first << endl;
+				index++;
+			}
+			cout << "输入1加载更多" << endl;
+			cout << "输入2退出" << endl;
+			int choice;
+			cin >> choice;
+
+			switch (choice)
+			{
+				case 1:
+					max_index += 4;
+					goto start;
+					break;
+				case 2:
+					return;
+			}
+		}
+	}
+}
+

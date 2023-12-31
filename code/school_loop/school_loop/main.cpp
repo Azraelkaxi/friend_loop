@@ -167,7 +167,9 @@ int main()
 		cout << "║                                        ║" << endl; 
 		cout << "║             5. 修改自身信息            ║" << endl;
 		cout << "║                                        ║" << endl;
-		cout << "║             6. 退出                    ║" << endl;
+		cout << "║             6. 查看热门榜单            ║" << endl;
+		cout << "║                                        ║" << endl;
+		cout << "║             7. 退出                    ║" << endl;
 		cout << "║                                        ║" << endl;
 		cout << "╚════════════════════════════════════════╝" << endl;
 		cout << "请输入您的选择：" << endl;
@@ -195,6 +197,8 @@ int main()
 				Change(mp, my_id);
 				break;
 			case 6:
+				Leaderboard(mp);
+			case 7:
 				endWrite(mp);
 				return 0;
 		}
