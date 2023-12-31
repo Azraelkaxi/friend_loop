@@ -1,7 +1,6 @@
 #pragma once
 #include"Moment.h"
 
-using namespace std;
 
 class User
 {

@@ -5,7 +5,7 @@
 #include<fstream>
 #include<map>
 #include"User.h"
-using namespace std;
+
 
 bool queryMessage(string _id);
 
@@ -20,5 +20,7 @@ int check_in(map<string, User>& mp);
 void retrieve(map<string, User>& mp);
 
 string login(map<string, User>& mp);
+
+string begin(map<string, User>& mp);
 #endif // !__LOGIN_H__
 

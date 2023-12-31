@@ -147,7 +147,7 @@ int main()
 
 	string my_id;
 
-	my_id = login(mp);
+	my_id = begin(mp);
 
 	system("cls");
 	while (1)

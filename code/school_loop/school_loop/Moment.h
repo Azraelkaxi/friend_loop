@@ -6,8 +6,8 @@
 #include <iomanip>
 #include <time.h>
 #include <sstream>
+#include<windows.h>
 using namespace std;
-
 class Comment;
 
 class Moments
@@ -58,6 +58,6 @@ public:
 
 
 
-#endif // !__MOMENT_H__
+#endif // !__MOMENT_H__;
 
 

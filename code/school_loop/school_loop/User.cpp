@@ -109,10 +109,6 @@ void User::addCircle_of_friends(Moments m)
 	system("pause");
 }
 
-//void User::deleteCircle_of_friends(Moments m)
-//{
-//	
-//}
 
 string& User::getId()
 {

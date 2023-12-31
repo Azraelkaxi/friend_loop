@@ -34,7 +34,12 @@ void save_id_message(string _id, string _message, map<string, User>& mp)
 	//实时更新map
 	list<string> Friend = {};
 	list<Moments> Circle_of_friends = {};
-	User user(_id, _message, Friend, Circle_of_friends);
+	string _message_ = "";
+	for (int i = 0; i < _message.size(); i++)
+	{
+		_message_ += _message[(i + 4) % _message.size()];
+	}
+	User user(_id, _message_, Friend, Circle_of_friends);
 	mp.insert(make_pair(_id, user));
 
 	// 在data下开一个存储新账号的区域
@@ -50,82 +55,164 @@ void save_id_message(string _id, string _message, map<string, User>& mp)
 }
 
 // 注册
-void sign_in(map<string, User>& mp)
+void sign_in(map<string, User>& mp, int flag)
 {
 	string _id, _message = "", re_message = "";
-	while (1)
+	if (flag == 2)
 	{
-		system("cls");
-		_message = "";
-		re_message = "";
-		cout << "请输入您要注册的账号(学号)：" << endl;
-		cin >> _id;
-		cout << "请输入密码(仅支持字母和数字)：" << endl;
 		while (1)
 		{
-			char c = _getch();//getch()不会向终端回显字符
-			if (c == '\r')
+			system("cls");
+			_message = "";
+			re_message = "";
+			cout << "请输入您要注册的账号(学号)：" << endl;
+			cin >> _id;
+			cout << "请输入密码(仅支持字母和数字)：" << endl;
+			while (1)
 			{
-				break;
-			}
-			else if (c == '\b') {  // Backspace键
-				if (!_message.empty()) {
-					// 删除最后一个字符
-					_message.pop_back();
+				char c = _getch();//getch()不会向终端回显字符
+				if (c == '\r')
+				{
+					break;
+				}
+				else if (c == '\b') {  // Backspace键
+					if (!_message.empty()) {
+						// 删除最后一个字符
+						_message.pop_back();
 
-					// 向终端回显退格
-					printf("\b \b");
+						// 向终端回显退格
+						printf("\b \b");
+					}
+				}
+				else
+				{
+					printf("*");
+					_message += c;
 				}
 			}
-			else
+			cout << endl;
+			cout << "请确认密码(仅支持字母和数字): " << endl;
+			while (1)
 			{
-				printf("*");
-				_message += c;
-			}
-		}
-		cout << endl;
-		cout << "请确认密码(仅支持字母和数字): " << endl;
-		while (1)
-		{
-			char c = _getch();//getch()不会向终端回显字符
-			if (c == '\r')
-			{
-				break;
-			}
-			else if (c == '\b') {  // Backspace键
-				if (!_message.empty()) {
-					// 删除最后一个字符
-					_message.pop_back();
+				char c = _getch();//getch()不会向终端回显字符
+				if (c == '\r')
+				{
+					break;
+				}
+				else if (c == '\b') {  // Backspace键
+					if (!_message.empty()) {
+						// 删除最后一个字符
+						_message.pop_back();
 
-					// 向终端回显退格
-					printf("\b \b");
+						// 向终端回显退格
+						printf("\b \b");
+					}
+				}
+				else
+				{
+					printf("*");
+					re_message += c;
 				}
 			}
-			else
+			cout << endl;
+			if (re_message == _message)
 			{
-				printf("*");
-				re_message += c;
-			}
-		}
-		cout << endl;
-		if (re_message == _message)
-		{
-			if (queryMessage(_id))
-			{
-				cout << "该账号已存在，请直接登录" << endl;
+				if (queryMessage(_id))
+				{
+					cout << "该账号已存在，请直接登录" << endl;
+					system("pause");
+					break;
+				}
+				save_id_message(_id, _message, mp);
+				cout << "您已成功注册，请登录" << endl;
 				system("pause");
 				break;
 			}
-			save_id_message(_id, _message, mp);
-			cout << "您已成功注册，请登录" << endl;
-			system("pause");
-			break;
+			else
+			{
+				cout << "两次输入的密码不一致，请重新注册" << endl;
+				system("pause");
+				continue;
+			}
 		}
-		else
+		return;
+	}
+	else if (flag == 1)
+	{
+		while (1)
 		{
-			cout << "两次输入的密码不一致，请重新注册" << endl;
-			system("pause");
-			continue;
+			system("cls");
+			_message = "";
+			re_message = "";
+			cout << "请输入您要注册的账号(gly+学号)：" << endl;
+			cin >> _id;
+			cout << "请输入密码(仅支持字母和数字)：" << endl;
+			while (1)
+			{
+				char c = _getch();//getch()不会向终端回显字符
+				if (c == '\r')
+				{
+					break;
+				}
+				else if (c == '\b') {  // Backspace键
+					if (!_message.empty()) {
+						// 删除最后一个字符
+						_message.pop_back();
+
+						// 向终端回显退格
+						printf("\b \b");
+					}
+				}
+				else
+				{
+					printf("*");
+					_message += c;
+				}
+			}
+			cout << endl;
+			cout << "请确认密码(仅支持字母和数字): " << endl;
+			while (1)
+			{
+				char c = _getch();//getch()不会向终端回显字符
+				if (c == '\r')
+				{
+					break;
+				}
+				else if (c == '\b') {  // Backspace键
+					if (!_message.empty()) {
+						// 删除最后一个字符
+						_message.pop_back();
+
+						// 向终端回显退格
+						printf("\b \b");
+					}
+				}
+				else
+				{
+					printf("*");
+					re_message += c;
+				}
+			}
+			cout << endl;
+			if (re_message == _message)
+			{
+				if (queryMessage(_id))
+				{
+					cout << "该账号已存在，请直接登录" << endl;
+					system("pause");
+					break;
+				}
+				save_id_message(_id, _message, mp);
+				cout << "您已成功注册，请登录" << endl;
+				system("pause");
+				break;
+			}
+			else
+			{
+				cout << "两次输入的密码不一致，请重新注册" << endl;
+				system("pause");
+				continue;
+			}
 		}
 	}
 }
@@ -144,7 +231,10 @@ int check(string _id, string _message, map<string, User>& mp)
 			{
 				if (it->first == _id)
 				{
-					if (it->second.getMessage() == _message)
+					string _message_ = "";
+					for (int i = 0; i < _message.size(); i++)
+						_message_ += _message[(i + 4) % _message.size()];
+					if (it->second.getMessage() == _message_)
 					{
 						ifs.close();
 						return 0;
@@ -245,7 +335,10 @@ void retrieve(map<string, User>& mp)
 					cout << "请输入新的密码： " << endl;
 					string new_message;
 					cin >> new_message;
-					it->second.setMessage(new_message);
+					string new_message_ = "";
+					for (int i = 0; i < new_message.size(); i++)
+						new_message_ += new_message[(i + 4) % new_message.size()];
+					it->second.setMessage(new_message_);
 					cout << "密码更新成功，请重新登录" << endl;
 					system("pause");
 					return;
@@ -279,7 +372,7 @@ void retrieve(map<string, User>& mp)
 }
 
 // 登录页面UI
-string login(map<string, User>& mp)
+string login(map<string, User>& mp, int flag)
 {
 	while (1)
 	{
@@ -290,7 +383,7 @@ string login(map<string, User>& mp)
 		cout << "-                                  -" << endl;
 		cout << "-            1. 登录               -" << endl;
 		cout << "-            2. 注册               -" << endl;
-		cout << "-            3.忘记密码            -" << endl;
+		cout << "-            3. 忘记密码            -" << endl;
 		cout << "-                                  -" << endl;
 		cout << "====================================" << endl;
 		cout << "请输入您的选择：" << endl;
@@ -303,7 +396,7 @@ string login(map<string, User>& mp)
 			ans = check_in(mp);
 			break;
 		case 2:
-			sign_in(mp);
+			sign_in(mp, flag);
 			break;
 		case 3:
 			retrieve(mp);
@@ -318,3 +411,36 @@ string login(map<string, User>& mp)
 			continue;
 	}
 }
+
+//最初
+string begin(map<string, User> &mp)
+{
+	while (1)
+	{
+		cout << "====================================" << endl;
+		cout << "         欢迎进入校园朋友圈         " << endl;
+		cout << "====================================" << endl;
+		cout << "                                    " << endl;
+		cout << "          1. 我是管理员             " << endl;
+		cout << "          2. 我是普通用户           " << endl;
+		cout << "                                    " << endl;
+		cout << "====================================" << endl;
+		cout << "请输入您的身份：" << endl;
+		int choice;
+		string my_id;
+		cin >> choice;
+
+		switch (choice)
+		{
+			case 1:
+				my_id = login(mp, choice);
+				break;
+			case 2:
+				my_id = login(mp, choice);
+				break;
+		}
+		return my_id;
+	}
+
+}
+
