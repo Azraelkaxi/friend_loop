@@ -108,17 +108,28 @@ void Moments::writeComment(string s)
 	comments.push_back({ s });
 }
 
-void Moments::writeReply()
+void Moments::writeReply(int num)
 {
 	string s;
 	cout << "请输入回复" << endl;
 	cin >> s;
-	comments.back().reply.push_back(s);
+	list<Comment>::iterator it = this->comments.begin();
+	while (--num)
+	{
+		++it;
+	}
+	it->reply.push_back(s);
+	//comments.back().reply.push_back(s);
 }
 
 void Moments::writeReply(string s)
 {
 	comments.back().reply.push_back(s);
+}
+
+list<Comment> Moments::getComments()
+{
+	return this->comments;
 }
 
 void Moments::showComment()
@@ -157,23 +168,18 @@ ostream& operator<<(ostream& o, const Moments& m)
 	o << m.likes << endl;
 	o << m.date << endl;
 	o << "#" << endl;
-	int commentIndex = 1;
 	for (auto commentIt = m.comments.begin(); commentIt != m.comments.end(); ++commentIt)
 	{
 		const Comment& comment = *commentIt;
-		o << "评论" << commentIndex << ": " << comment.text << endl;
+		o << comment.text << endl;
 		if (!comment.reply.empty())
 		{
-			int replyIndex = 1;
 			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)
 			{
 				const string& reply = *replyIt;
-				o << "回复" << replyIndex << ": " << reply << endl;
-				++replyIndex;
+				o << reply << endl;
 			}
-			o << endl;
 		}
-		++commentIndex;
 	}
 	o << "*" << endl;
 	return o;

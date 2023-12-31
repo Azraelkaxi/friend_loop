@@ -4,6 +4,7 @@
 #include"tools.h"
 #include<map>
 
+
 // 初始化mp
 void Init(map<string, User>& mp)
 {
@@ -50,17 +51,17 @@ void Init(map<string, User>& mp)
 						else
 						{
 							t.getFriend().push_back(temp);
-						} 
+						}
 					}
 				}
 
 				// 读朋友圈的信息
-				getline(is, temp );
+				getline(is, temp);
 				while (temp == "#")
 				{
 					Moments moment;
 					string content = "";
-					
+
 					// 内容
 					while (getline(is, temp))
 					{
@@ -68,7 +69,7 @@ void Init(map<string, User>& mp)
 							break;
 						else
 						{
-							content += temp + "\n";
+							content += temp;
 						}
 					}
 					moment.setText(content);
@@ -83,9 +84,13 @@ void Init(map<string, User>& mp)
 					getline(is, temp);
 					if (temp == "#")
 					{
-						while (temp != "*")
+						while (temp != "*" && !temp.empty())
 						{
 							getline(is, temp);
+							if (temp == "*")
+							{
+								break;
+							}
 							moment.writeComment(temp);
 							getline(is, temp);
 							while (!temp.empty())
@@ -113,6 +118,25 @@ void Init(map<string, User>& mp)
 			}
 		}
 	}
+}
+
+// 结束时将mp写会到数据库
+void endWrite(map<string, User>& mp) {
+
+	map<string, User>::iterator pos;
+	for (pos = mp.begin(); pos != mp.end(); ++pos)
+	{
+		string url = (*pos).second.getId();
+		url = "data\\" + url + ".txt";
+
+		// 打开文件并清空内容
+		ofstream outfile(url, ios::trunc);
+
+		// 写入新的内容
+		outfile << (*pos).second;
+
+	}
+
 }
 
 int main()
@@ -171,6 +195,7 @@ int main()
 				Change(mp, my_id);
 				break;
 			case 6:
+				endWrite(mp);
 				return 0;
 		}
 	}

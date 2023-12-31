@@ -162,7 +162,7 @@ ostream& operator<<(ostream& o, const User &m)
 	list<Moments>::iterator mm;
 	for (mm = moments.begin(); mm != moments.end(); ++mm)
 	{
-		o << *mm << endl;
+		o << *mm;
 	}
 	return o;
 }
