@@ -18,6 +18,7 @@ void display(map<string, User> mp, string _id_)
 		}
 	}
 }
+
 //刷新好友列表
 void refresh_friend_list(map<string, User>& mp, string my_id, string _id, int flag)
 {
@@ -62,6 +63,7 @@ void refresh_friend_list(map<string, User>& mp, string my_id, string _id, int fl
 		}
 	}
 }
+
 //加好友，并返回好友网名
 string Add_friend(map<string, User>& mp, string my_id)
 {
@@ -87,6 +89,7 @@ string Add_friend(map<string, User>& mp, string my_id)
 		return "NotFound";
 	}
 }
+
 //删好友
 void deletefriend(map<string, User>& mp, string my_id)
 {
@@ -131,6 +134,7 @@ void deletefriend(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
 //发布朋友圈
 void Post_on_moments(map<string, User>& mp, string my_id)
 {
@@ -174,11 +178,13 @@ void Post_on_moments(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
 //刷朋友圈
 void begin_to_see(map<string, User>& mp, string my_id)
 {
 	while (1)
 	{
+		system("cls");
 		cout << "╔════════════════════════════════════════╗" << endl;
 		cout << "║           欢迎进入您的朋友圈           ║" << endl;
 		cout << "╠════════════════════════════════════════╣" << endl;
@@ -360,6 +366,7 @@ void begin_to_see(map<string, User>& mp, string my_id)
 	}
 	
 }
+
 //查找某个人发的朋友圈
 void query_friend_circle(map<string, User>& mp, string my_id)
 {
@@ -399,6 +406,7 @@ void query_friend_circle(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
 //删除朋友圈
 void delete_friend_circle(map<string, User>& mp, string my_id)
 {
@@ -568,6 +576,7 @@ void delete_friend_circle(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
 //实现刷朋友圈，待定。
 //还可以实现查找某个人特定朋友圈，删除朋友圈等
 //发布评论 回复某条评论  进行点赞  进行上述动作的同时，要实时更新文本文件
@@ -609,6 +618,7 @@ void see_friend_circle(map<string, User>& mp, string my_id)
 		}
 	}
 }
+
 //修改信息
 void Change(map<string, User>& mp, string my_id)
 {
@@ -712,6 +722,7 @@ void Change(map<string, User>& mp, string my_id)
 		break;
 	}
 }
+
 //热门榜单
 void Leaderboard(map<string, User>& mp)
 {
@@ -788,3 +799,136 @@ void Leaderboard(map<string, User>& mp)
 	}
 }
 
+// 初始化mp
+void Init(map<string, User>& mp)
+{
+	string URL = "data\\校园朋友圈账号信息.txt";
+	string line;
+	ifstream ifs(URL, ios_base::in);
+	while (getline(ifs, line))
+	{
+		if (line.empty())
+		{
+			ifs.close();
+			break;
+		}
+		else
+		{
+			string File_name = "data\\" + line + ".txt";
+			ifstream is(File_name, ios_base::in);
+			if (!is.is_open())
+			{
+				cout << "文件打开失败" << endl;
+			}
+			else
+			{
+				User t;
+				string temp;
+				// 读取基本信息
+				getline(is, temp);
+				t.setID(temp);
+				getline(is, temp);
+				t.setMessage(temp);
+				getline(is, temp);
+				t.setName(temp);
+				getline(is, temp);
+				t.setBirthday(temp);
+
+				// 读取好友列表
+				getline(is, temp);
+				if (temp == "#")
+				{
+					while (getline(is, temp))
+					{
+						if (temp.empty() || temp == "*")
+							break;
+						else
+						{
+							t.getFriend().push_back(temp);
+						}
+					}
+				}
+
+				// 读朋友圈的信息
+				getline(is, temp);
+				while (temp == "#")
+				{
+					Moments moment;
+					string content = "";
+
+					// 内容
+					while (getline(is, temp))
+					{
+						if (temp.empty() || temp == "#")
+							break;
+						else
+						{
+							content += temp;
+						}
+					}
+					moment.setText(content);
+
+					// 点赞和日期
+					getline(is, temp);
+					moment.setLikes(atoi(temp.c_str()));
+					getline(is, temp);
+					moment.setDate(temp);
+
+					// 评论
+					getline(is, temp);
+					if (temp == "#")
+					{
+						while (temp != "*" && !temp.empty())
+						{
+							getline(is, temp);
+							if (temp == "*")
+							{
+								break;
+							}
+							moment.writeComment(temp);
+							getline(is, temp);
+							while (!temp.empty())
+							{
+								if (temp == "*")
+								{
+									break;
+								}
+								moment.writeReply(temp);
+								getline(is, temp);
+							}
+						}
+
+					}
+					t.getCircle_of_friends().push_back(moment);
+
+					// 读出是否有下一条朋友圈
+					getline(is, temp);
+
+				}
+
+				// 将读出的user对象放入到mp中
+				mp.insert(make_pair(t.getId(), t));
+
+			}
+		}
+	}
+}
+
+// 结束时将mp写会到数据库
+void endWrite(map<string, User>& mp) {
+
+	map<string, User>::iterator pos;
+	for (pos = mp.begin(); pos != mp.end(); ++pos)
+	{
+		string url = (*pos).second.getId();
+		url = "data\\" + url + ".txt";
+
+		// 打开文件并清空内容
+		ofstream outfile(url, ios::trunc);
+
+		// 写入新的内容
+		outfile << (*pos).second;
+
+	}
+
+}

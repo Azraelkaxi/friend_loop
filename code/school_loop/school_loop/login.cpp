@@ -346,6 +346,11 @@ void retrieve(map<string, User>& mp)
 				else
 				{
 					cout << "您输入的网名或生日有误，请重新输入" << endl;
+					cout << "输入‘1’重新输入，输入‘0’返回" << endl;
+					int f = 0;
+					cin >> f;
+					if (f == 0)
+						return;
 					goto restart;
 				}
 			}

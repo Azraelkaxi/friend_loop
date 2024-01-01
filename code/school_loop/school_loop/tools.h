@@ -10,7 +10,7 @@
 //显示信息
 void display(map<string, User> mp, string _id_);
 //刷新好友列表
-void refresh_friend_list(map<string, User> &mp, string my_id, string _id);
+void refresh_friend_list(map<string, User> &mp, string my_id, string _id, int flag);
 //加好友，并返回好友网名
 string Add_friend(map<string, User>& mp, string my_id);
 //删好友
@@ -29,6 +29,10 @@ void query_friend_circle(map<string, User>& mp, string my_id);
 void delete_friend_circle(map<string, User>& mp, string my_id);
 //修改信息
 void Change(map<string, User>& mp, string my_id);
-
+// 初始化mp
+void Init(map<string, User>& mp);
+// 结束时将mp写会到数据库
+void endWrite(map<string, User>& mp);
+//热门榜单
 void Leaderboard(map<string, User>& mp);
 #endif // !__TOOL_H__

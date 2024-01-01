@@ -160,6 +160,7 @@ void Moments::showComment()
 		++commentIndex;
 	}
 }
+
 ostream& operator<<(ostream& o, const Moments& m)
 {
 	o << "#" << endl;
