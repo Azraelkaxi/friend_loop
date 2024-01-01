@@ -1,5 +1,4 @@
 #include"tools.h"
-
 //显示信息
 void display(map<string, User> mp, string _id_)
 {
@@ -180,13 +179,13 @@ void begin_to_see(map<string, User>& mp, string my_id)
 {
 	while (1)
 	{
-		cout << "----------------------------" << endl;
-		cout << "     欢迎进入您的朋友圈     " << endl;
-		cout << "----------------------------" << endl;
-		cout << "         1. 自己            " << endl;
-		cout << "         2. 朋友            " << endl;
-		cout << "         3. 退出            " << endl;
-		cout << "----------------------------" << endl;
+		cout << "╔════════════════════════════════════════╗" << endl;
+		cout << "║           欢迎进入您的朋友圈           ║" << endl;
+		cout << "╠════════════════════════════════════════╣" << endl;
+		cout << "║               1. 自己                  ║" << endl;
+		cout << "║               2. 朋友                  ║" << endl;
+		cout << "║               3. 退出                  ║" << endl;
+		cout << "╚════════════════════════════════════════╝" << endl;
 		cout << "请输入您的选择： " << endl;
 		int choice;
 		cin >> choice;
@@ -370,38 +369,33 @@ void query_friend_circle(map<string, User>& mp, string my_id)
 		string target_id;
 		cin >> target_id;
 
-		map<string, User>::iterator it;
-		for (it = mp.begin(); it != mp.end(); ++it) {
-			if (it->first == target_id) {
-				int flag = 0;
-				list<Moments> friend_moments = it->second.getCircle_of_friends();
-				if (friend_moments.empty()) {
-					cout << "该用户还没有发布朋友圈" << endl;
-					flag = 1;
+		map<string, User>::iterator it = mp.find(target_id);
+		if (it != mp.end()) {
+			int flag = 0;
+			list<Moments> friend_moments = it->second.getCircle_of_friends();
+			if (friend_moments.empty()) {
+				cout << "该用户还没有发布朋友圈" << endl;
+				flag = 1;
+			}
+			else {
+				list<Moments>::iterator it_m;
+				for (it_m = friend_moments.begin(); it_m != friend_moments.end(); ++it_m) {
+					cout << "内容：" << it_m->getText() << endl;
+					cout << "日期：" << it_m->getDate() << endl;
+					cout << "点赞数：" << it_m->getLikes() << endl;
+					it_m->showComment();
+					cout << endl;
 				}
-				else {
-					list<Moments>::iterator it_m;
-					for (it_m = friend_moments.begin(); it_m != friend_moments.end(); ++it_m) {
-						cout << "内容：" << it_m->getText();
-						cout << "日期：" << it_m->getDate() << endl;
-						cout << "点赞数：" << it_m->getLikes() << endl;
-						cout << endl;
-					}
-					flag = 1;
-				}
-				if (flag) {
-					system("pause");
-					break;
-				}
+				flag = 1;
+			}
+			if (flag) {
+				system("pause");
+				break;
 			}
 		}
-
-		if (it == mp.end()) {
+		else {
 			cout << "未找到该学号对应的用户" << endl;
 			system("pause");
-		}
-		else {
-			break;
 		}
 	}
 }
