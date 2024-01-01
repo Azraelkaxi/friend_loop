@@ -172,7 +172,11 @@ ostream& operator<<(ostream& o, const Moments& m)
 	for (auto commentIt = m.comments.begin(); commentIt != m.comments.end(); ++commentIt)
 	{
 		const Comment& comment = *commentIt;
-		o << comment.text << endl;
+		o << comment.text;
+		if (!comment.text.empty())
+		{
+			o << endl;
+		}
 		if (!comment.reply.empty())
 		{
 			for (auto replyIt = comment.reply.begin(); replyIt != comment.reply.end(); ++replyIt)

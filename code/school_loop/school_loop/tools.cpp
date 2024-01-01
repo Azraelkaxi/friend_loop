@@ -218,7 +218,7 @@ void begin_to_see(map<string, User>& mp, string my_id)
 							aaa:
 								system("cls");
 								cout << "网名：" << ir->first << endl;
-								cout << "内容：" << ior->getText();
+								cout << "内容：" << ior->getText() << endl;
 								cout << "日期：" << ior->getDate() << endl;
 								cout << "点赞数：" << ior->getLikes() << endl;
 								ior->showComment();
@@ -299,7 +299,7 @@ void begin_to_see(map<string, User>& mp, string my_id)
 									start:
 										system("cls");
 										cout << "网名：" << is->first << endl;
-										cout << "内容：" << it1->getText();
+										cout << "内容：" << it1->getText() << endl;
 										cout << "日期：" << it1->getDate() << endl;
 										cout << "点赞数：" << it1->getLikes() << endl;
 										it1->showComment();
@@ -449,7 +449,7 @@ void delete_friend_circle(map<string, User>& mp, string my_id)
 							{
 								system("cls");
 								cout << "网名：" << it1->first << endl;
-								cout << "内容：" << it2->getText();
+								cout << "内容：" << it2->getText() << endl;
 								cout << "日期：" << it2->getDate() << endl;
 								cout << "点赞数：" << it2->getLikes() << endl;
 								it2->showComment();
@@ -497,7 +497,7 @@ void delete_friend_circle(map<string, User>& mp, string my_id)
 							{
 								system("cls");
 								cout << "网名：" << my_id << endl;
-								cout << "内容：" << it4->getText();
+								cout << "内容：" << it4->getText() << endl;
 								cout << "日期：" << it4->getDate() << endl;
 								cout << "点赞数：" << it4->getLikes() << endl;
 								it4->showComment();
@@ -548,7 +548,7 @@ void delete_friend_circle(map<string, User>& mp, string my_id)
 			{
 				system("cls");
 				cout << "网名：" << my_id << endl;
-				cout << "内容：" << iit1->getText();
+				cout << "内容：" << iit1->getText()<< endl;
 				cout << "日期：" << iit1->getDate() << endl;
 				cout << "点赞数：" << iit1->getLikes() << endl;
 				iit1->showComment();
