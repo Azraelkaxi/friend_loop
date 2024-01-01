@@ -620,109 +620,111 @@ void Change(map<string, User>& mp, string my_id)
 {
 	while (1)
 	{
+	ss:
 		system("cls");
 		cout << "--------------------------------" << endl;
 		cout << "      欢迎进入信息修改界面      " << endl;
 		cout << "--------------------------------" << endl;
-		cout << "您的个人信息如下：" << endl;
-		for (map<string, User>::iterator it = mp.begin(); it != mp.end(); ++it)
+		auto it = mp.find(my_id);
+		if (it != mp.end())
 		{
-			if (it->first == my_id)
+			User& user = it->second;
+			cout << "您的个人信息如下：" << endl;
+			cout << "学号：" << it->first << endl;
+			string _message = it->second.getMessage();
+			string new_message = "";
+			for (int i = 0; i < _message.size(); i++)
+				new_message += _message[(i + _message.size() - 4) % _message.size()];
+			cout << "密码：" << new_message << endl;
+			cout << "网名：" << user.getName() << endl;
+			cout << "生日：" << user.getBirthday() << endl;
+			cout << "1. 改密码 " << "      " << "2. 改网名 " << "      " << "3. 改生日 " << "      " << "4. 退出 " << endl;
+			cout << "请输入您的选择：" << endl;
+			int choice;
+			cin >> choice;
+			switch (choice)
 			{
-				cout << "学号：" << it->first << endl;
-				string _message = it->second.getMessage();
-				string new_message = "";
-				for (int i = 0; i < _message.size(); i++)
-					new_message += _message[(i + _message.size() - 4) % _message.size()];
-				cout << "密码：" << new_message << endl;
-				cout << "网名：" << it->second.getName() << endl;
-				cout << "生日：" << it->second.getBirthday() << endl;
-				cout << "1. 改密码 " << "      " << "2. 改网名 " << "      " << "3. 改生日 " << "      " << "4. 退出 " << endl;
-				cout << "请输入您的选择：" << endl;
-				int choice;
-				cin >> choice;
+			case 1:
+			{
+			restart:
+				system("cls");
+				cout << "请输入新密码：" << endl;
 
-				switch (choice)
+				string new_message, flag;
+				while (true)
 				{
-				case 1:
-				{
-				restart:
-					system("cls");
-					cout << "请输入新密码：" << endl;
-					string new_message, flag;
-					while (1)
-					{
-						char c = _getch();//getch()不会向终端回显字符
-						if (c == '\r')
-						{
-							break;
-						}
-						printf("*");
-						new_message += c;
-					}
-					cout << endl;
-					cout << new_message << endl;
-					cout << "请确认密码是否正确(0或1): " << endl;
-					cin >> flag;
-					if (flag == "0")
-						goto restart;
-					string new_message_ = "";
-					for (int i = 0; i < new_message.size(); i++)
-						new_message_ += new_message[(i + 4) % new_message.size()];
-					it->second.setMessage(new_message_);
-					cout << "密码修改成功" << endl;
-					system("pause");
-					break;
+					char c = _getch();
+					if (c == '\r')
+						break;
+					cout << "*";
+					new_message += c;
 				}
-				case 2:
-				{
-				restart1:
-					system("cls");
-					cout << "请输入新网名：" << endl;
-					string new_name, flag;
-					cin >> new_name;
-					cout << endl;
-					cout << "请确认网名是否正确(0或1): " << endl;
-					cin >> flag;
-					if (flag == "0")
-						goto restart1;
-					it->second.setName(new_name);
-					cout << "网名修改成功" << endl;
-					system("pause");
-					break;
-				}
-				case 3:
-				{
-				restart2:
-					system("cls");
-					cout << "请输入新生日(XXXX-XX-XX)：" << endl;
-					string new_birthday, flag;
-					cin >> new_birthday;
-					cout << endl;
-					cout << "请确认生日是否正确(0或1): " << endl;
-					cin >> flag;
-					if (flag == "0")
-						goto restart2;
-					it->second.setBirthday(new_birthday);
-					cout << "生日修改成功" << endl;
-					system("pause");
-					break;
-				}
-				case 4:
-					return;
-				}
+				cout << endl;
+				cout << new_message << endl;
+				cout << "请确认密码是否正确(0或1): " << endl;
+				cin >> flag;
+				if (flag == "0")
+					goto restart;
+				string new_message_ = "";
+				for (int i = 0; i < new_message.size(); i++)
+					new_message_ += new_message[(i + 4) % new_message.size()];
+				it->second.setMessage(new_message_);
+				user.setMessage(new_message_);
+				cout << "密码修改成功" << endl;
+				system("pause");
+				goto ss;
+				break;
 			}
-			break;
+			case 2:
+			{
+			restart1:
+				system("cls");
+				cout << "请输入新网名：" << endl;
+				string new_name, flag;
+				cin >> new_name;
+				cout << endl;
+				cout << "请确认网名是否正确(0或1): " << endl;
+				cin >> flag;
+				if (flag == "0")
+					goto restart1;
+				it->second.setName(new_name);
+				cout << "网名修改成功" << endl;
+				system("pause");
+				goto ss;
+				break;
+			}
+			case 3:
+			{
+			restart2:
+				system("cls");
+				cout << "请输入新生日(XXXX-XX-XX)：" << endl;
+				string new_birthday, flag;
+				cin >> new_birthday;
+				cout << endl;
+				cout << "请确认生日是否正确(0或1): " << endl;
+				cin >> flag;
+				if (flag == "0")
+					goto restart2;
+				it->second.setBirthday(new_birthday);
+				cout << "生日修改成功" << endl;
+				system("pause");
+				goto ss;
+				break;
+			}
+			case 4:
+				return;
+			}
 		}
+		break;
 	}
 }
-
 //热门榜单
 void Leaderboard(map<string, User>& mp)
 {
-	map<int, pair<string, string>> mmp;
+	multimap <int, pair<string, string>> mmp;
 	string line;
-	ifstream ifs(line, ios_base::in);
+	string u = "data\\校园朋友圈账号信息.txt";
+	ifstream ifs(u, ios_base::in);
 	while (getline(ifs, line))
 	{
 		if (line.empty())
@@ -741,6 +743,7 @@ void Leaderboard(map<string, User>& mp)
 						pair<string, string> _p(_text, _id);
 						mmp.insert(make_pair(_likes, _p));
 					}
+					break;
 				}
 			}
 		}

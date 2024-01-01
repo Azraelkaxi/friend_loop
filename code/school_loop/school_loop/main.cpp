@@ -198,6 +198,7 @@ int main()
 				break;
 			case 6:
 				Leaderboard(mp);
+				break;
 			case 7:
 				endWrite(mp);
 				return 0;

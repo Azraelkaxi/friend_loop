@@ -383,7 +383,7 @@ string login(map<string, User>& mp, int flag)
 		cout << "-                                  -" << endl;
 		cout << "-            1. µÇÂ¼               -" << endl;
 		cout << "-            2. ×¢²á               -" << endl;
-		cout << "-            3. Íü¼ÇÃÜÂë            -" << endl;
+		cout << "-            3. Íü¼ÇÃÜÂë           -" << endl;
 		cout << "-                                  -" << endl;
 		cout << "====================================" << endl;
 		cout << "ÇëÊäÈëÄúµÄÑ¡Ôñ£º" << endl;
